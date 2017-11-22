@@ -1,0 +1,7 @@
+nginx:
+  container_name: tiny-dude-nginx
+  image: nginx
+  ports:
+    - 8082:80
+  volumes:
+    - ./:/usr/share/nginx/html
