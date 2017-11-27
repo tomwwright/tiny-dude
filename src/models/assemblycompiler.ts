@@ -1,3 +1,5 @@
+import { comparer } from 'mobx/lib/types/comparer';
+
 const SOURCE_SEPERATOR = ' ';
 export const TOKEN_EOL = '[EOL]';
 export const TOKEN_COMMENT = '//';
@@ -18,6 +20,7 @@ export enum Mnemonic {
 
 export const OpCodes = {
   [Mnemonic.HLT]: 0,
+  [Mnemonic.DAT]: 0,
   [Mnemonic.ADD]: 100,
   [Mnemonic.SUB]: 200,
   [Mnemonic.STA]: 400,
@@ -46,9 +49,9 @@ type AssemblyStatement = {
   argument: string;
 };
 
-export type AssemblyCompiler = {
+export type AssemblyParser = {
   tokens: string[];
-  state: AssemblyCompilerState;
+  state: AssemblyParserState;
   line: number;
   statements: AssemblyStatement[];
   currentStatement: AssemblyStatement;
@@ -56,7 +59,13 @@ export type AssemblyCompiler = {
   fatalError: boolean;
 };
 
-export const enum AssemblyCompilerState {
+export type AssemblyCompiler = {
+  statements: AssemblyStatement[];
+  program: number[];
+  errors: CompilerError[];
+};
+
+export const enum AssemblyParserState {
   PROGRAM = 'program',
   COMMENT = 'comment',
   EOL = 'eol',
@@ -82,9 +91,9 @@ export function compileAssembly(source: string): AssemblyCompilerOutput {
 
   const statements: AssemblyStatement[] = [];
 
-  const compiler: AssemblyCompiler = {
+  const parser: AssemblyParser = {
     tokens: tokens,
-    state: AssemblyCompilerState.PROGRAM,
+    state: AssemblyParserState.PROGRAM,
     line: 1,
     statements: [],
     errors: [],
@@ -92,17 +101,32 @@ export function compileAssembly(source: string): AssemblyCompilerOutput {
     fatalError: false,
   };
 
-  while (compiler.tokens.length > 0 && !compiler.fatalError) {
-    parse(compiler);
+  while (parser.tokens.length > 0 && !parser.fatalError) {
+    parse(parser);
   }
 
-  return {
+  if (parser.errors.length > 0) {
+    return {
+      program: [],
+      errors: parser.errors,
+    };
+  }
+
+  const compiler: AssemblyCompiler = {
+    statements: parser.statements,
     program: [],
+    errors: [],
+  };
+
+  compile(compiler);
+
+  return {
+    program: compiler.program,
     errors: compiler.errors,
   };
 }
 
-export function parse(compiler: AssemblyCompiler) {
+export function parse(compiler: AssemblyParser) {
   const parser = parsers[compiler.state];
   if (!parser) {
     compiler.errors.push({
@@ -115,25 +139,31 @@ export function parse(compiler: AssemblyCompiler) {
   }
 }
 
-const parsers: { [state: string]: (parser: AssemblyCompiler) => void } = {
-  [AssemblyCompilerState.PROGRAM]: parseProgram,
-  [AssemblyCompilerState.ERROR_SYNTAX]: parseComment,
-  [AssemblyCompilerState.COMMENT]: parseComment,
-  [AssemblyCompilerState.EOL]: parseEOL,
-  [AssemblyCompilerState.STATEMENT]: parseStatement,
-  [AssemblyCompilerState.INSTRUCTION]: parseInstruction,
-  [AssemblyCompilerState.ARGUMENT]: parseArgument,
+const parsers: { [state: string]: (parser: AssemblyParser) => void } = {
+  [AssemblyParserState.PROGRAM]: parseProgram,
+  [AssemblyParserState.ERROR_SYNTAX]: parseComment,
+  [AssemblyParserState.COMMENT]: parseComment,
+  [AssemblyParserState.EOL]: parseEOL,
+  [AssemblyParserState.STATEMENT]: parseStatement,
+  [AssemblyParserState.INSTRUCTION]: parseInstruction,
+  [AssemblyParserState.ARGUMENT]: parseArgument,
 };
 
-function parseEOL(compiler: AssemblyCompiler): void {
+function parseEOL(compiler: AssemblyParser): void {
   const token = compiler.tokens[0];
 
   if (match(token, AssemblyToken.EOL)) {
+    if (compiler.currentStatement) {
+      compiler.statements.push(compiler.currentStatement);
+      compiler.currentStatement = null;
+    }
     compiler.line += 1;
     compiler.tokens.splice(0, 1);
-    compiler.state = AssemblyCompilerState.PROGRAM;
+    compiler.state = AssemblyParserState.PROGRAM;
+  } else if (match(token, AssemblyToken.COMMENT)) {
+    compiler.state = AssemblyParserState.COMMENT;
   } else {
-    compiler.state = AssemblyCompilerState.ERROR_SYNTAX;
+    compiler.state = AssemblyParserState.ERROR_SYNTAX;
     compiler.errors.push({
       line: compiler.line,
       message: `Illegal token '${token}': expected EOL`,
@@ -141,7 +171,7 @@ function parseEOL(compiler: AssemblyCompiler): void {
   }
 }
 
-function parseStatement(compiler: AssemblyCompiler) {
+function parseStatement(compiler: AssemblyParser) {
   compiler.currentStatement = {
     line: compiler.line,
     instruction: null,
@@ -151,13 +181,14 @@ function parseStatement(compiler: AssemblyCompiler) {
 
   const token = compiler.tokens[0];
   if (match(token, AssemblyToken.INSTRUCTION)) {
-    compiler.state = AssemblyCompilerState.INSTRUCTION;
+    compiler.state = AssemblyParserState.INSTRUCTION;
   } else if (match(token, AssemblyToken.LABEL)) {
-    compiler.state = AssemblyCompilerState.INSTRUCTION;
+    compiler.state = AssemblyParserState.INSTRUCTION;
     compiler.currentStatement.label = token;
     compiler.tokens.splice(0, 1);
   } else {
-    compiler.state = AssemblyCompilerState.ERROR_SYNTAX;
+    compiler.state = AssemblyParserState.ERROR_SYNTAX;
+    compiler.currentStatement = null;
     compiler.errors.push({
       line: compiler.line,
       message: `Illegal token '${token}': expected LABEL|INSTRUCTION`,
@@ -165,14 +196,15 @@ function parseStatement(compiler: AssemblyCompiler) {
   }
 }
 
-function parseInstruction(compiler: AssemblyCompiler) {
+function parseInstruction(compiler: AssemblyParser) {
   const token = compiler.tokens[0];
   if (match(token, AssemblyToken.INSTRUCTION)) {
     compiler.currentStatement.instruction = Mnemonic[token];
-    compiler.state = AssemblyCompilerState.ARGUMENT;
+    compiler.state = AssemblyParserState.ARGUMENT;
     compiler.tokens.splice(0, 1);
   } else {
-    compiler.state = AssemblyCompilerState.ERROR_SYNTAX;
+    compiler.state = AssemblyParserState.ERROR_SYNTAX;
+    compiler.currentStatement = null;
     compiler.errors.push({
       line: compiler.line,
       message: `Illegal token '${token}': expected INSTRUCTION`,
@@ -180,17 +212,20 @@ function parseInstruction(compiler: AssemblyCompiler) {
   }
 }
 
-function parseArgument(compiler: AssemblyCompiler) {
+function parseArgument(compiler: AssemblyParser) {
   const token = compiler.tokens[0];
 
   if (match(token, AssemblyToken.EOL)) {
-    compiler.state = AssemblyCompilerState.EOL;
+    compiler.state = AssemblyParserState.EOL;
+  } else if (match(token, AssemblyToken.COMMENT)) {
+    compiler.state = AssemblyParserState.COMMENT;
   } else if (match(token, AssemblyToken.LABEL) || match(token, AssemblyToken.NUMBER)) {
-    compiler.state = AssemblyCompilerState.EOL;
+    compiler.state = AssemblyParserState.EOL;
     compiler.tokens.splice(0, 1);
     compiler.currentStatement.argument = token;
   } else {
-    compiler.state = AssemblyCompilerState.ERROR_SYNTAX;
+    compiler.state = AssemblyParserState.ERROR_SYNTAX;
+    compiler.currentStatement = null;
     compiler.errors.push({
       line: compiler.line,
       message: `Illegal token '${token}': expected LABEL|NUMBER|EOL`,
@@ -198,24 +233,24 @@ function parseArgument(compiler: AssemblyCompiler) {
   }
 }
 
-function parseComment(compiler: AssemblyCompiler) {
+function parseComment(compiler: AssemblyParser) {
   const token = compiler.tokens[0];
   if (match(token, AssemblyToken.EOL)) {
-    compiler.state = AssemblyCompilerState.EOL;
+    compiler.state = AssemblyParserState.EOL;
   } else {
     compiler.tokens.splice(0, 1);
   }
 }
 
-function parseProgram(compiler: AssemblyCompiler) {
+function parseProgram(compiler: AssemblyParser) {
   const token = compiler.tokens[0];
 
   if (match(token, AssemblyToken.EOL)) {
-    compiler.state = AssemblyCompilerState.EOL;
+    compiler.state = AssemblyParserState.EOL;
   } else if (match(token, AssemblyToken.COMMENT)) {
-    compiler.state = AssemblyCompilerState.COMMENT;
+    compiler.state = AssemblyParserState.COMMENT;
   } else {
-    compiler.state = AssemblyCompilerState.STATEMENT;
+    compiler.state = AssemblyParserState.STATEMENT;
   }
 }
 
@@ -242,6 +277,7 @@ function matchEOL(token: string): boolean {
 function matchComment(token: string): boolean {
   return token == TOKEN_COMMENT;
 }
+
 function matchInstruction(token: string): boolean {
   const mnemonic = Mnemonic[token];
   return mnemonic != null;
@@ -253,4 +289,72 @@ function matchLabel(token: string): boolean {
 
 function matchNumber(token: string): boolean {
   return /^([0-9]|[0-9]{2}|[0-9]{3})$/.test(token);
+}
+
+function compile(compiler: AssemblyCompiler) {
+  compiler.program = [];
+  const labelsToAddress: { [label: string]: number } = {};
+
+  compiler.statements.forEach((statement, i) => {
+    if (statement.label) {
+      if (labelsToAddress[statement.label] === undefined) {
+        labelsToAddress[statement.label] = i;
+      } else {
+        compiler.errors.push({
+          line: statement.line,
+          message: `Label already defined: ${statement.label}`,
+        });
+      }
+    }
+
+    switch (statement.instruction) {
+      case Mnemonic.ADD:
+      case Mnemonic.SUB:
+      case Mnemonic.STA:
+      case Mnemonic.LDA:
+      case Mnemonic.BRA:
+      case Mnemonic.BRZ:
+      case Mnemonic.BRP:
+      case Mnemonic.DAT:
+        if (statement.argument == null) {
+          compiler.errors.push({
+            line: statement.line,
+            message: `Missing argument for instruction: ${statement.instruction}`,
+          });
+        }
+        break;
+      case Mnemonic.HLT:
+      case Mnemonic.INP:
+      case Mnemonic.OUT:
+        if (statement.argument != null) {
+          compiler.errors.push({
+            line: statement.line,
+            message: `Argument specified for non-argument instruction: ${statement.instruction}`,
+          });
+        }
+        break;
+    }
+  });
+
+  compiler.statements.forEach((statement, i) => {
+    if (statement.argument && matchLabel(statement.argument) && labelsToAddress[statement.argument] === undefined) {
+      compiler.errors.push({
+        line: statement.line,
+        message: `Label not defined: ${statement.argument}`,
+      });
+    }
+  });
+
+  if (compiler.errors.length == 0) {
+    compiler.statements.forEach((statement, i) => {
+      let code = OpCodes[statement.instruction];
+      if (statement.argument) {
+        const argument = matchNumber(statement.argument)
+          ? Number.parseInt(statement.argument)
+          : labelsToAddress[statement.argument];
+        code += argument;
+      }
+      compiler.program.push(code);
+    });
+  }
 }
