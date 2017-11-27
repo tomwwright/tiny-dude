@@ -1,6 +1,5 @@
 import { observable, computed, action } from 'mobx';
 
-
 export default class ComputeStore {
   @observable accumulator: number = 0;
   @observable counter: number = 0;
@@ -47,7 +46,7 @@ export default class ComputeStore {
 
     const goto = this.opcode(mem);
 
-    this.counter = (goto != null) ? goto : this.counter + 1;
+    this.counter = goto != null ? goto : this.counter + 1;
   }
 
   private opcode(input: number): number {
@@ -114,11 +113,11 @@ export default class ComputeStore {
   }
 
   private branchZero(value: number) {
-    return (this.accumulator === 0) ? value : null;
+    return this.accumulator === 0 ? value : null;
   }
 
   private branchPositive(value: number) {
-    return (this.accumulator > 0) ? value : null;
+    return this.accumulator > 0 ? value : null;
   }
 
   private output() {
