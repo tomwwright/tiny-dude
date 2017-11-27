@@ -5,7 +5,7 @@ import { compileAssembly, CompilerError } from 'models/assemblycompiler';
 export default class AssemblyStore {
   @observable source: string = '';
   @observable program: number[] = [];
-  @observable compileErrors: CompilerError[];
+  @observable compileErrors: CompilerError[] = [];
 
   @action
   compile(source: string): boolean {

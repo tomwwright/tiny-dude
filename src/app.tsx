@@ -4,17 +4,21 @@ import * as React from 'react';
 import { Provider } from 'mobx-react';
 
 import ComputeStore from 'stores/compute';
+import AssemblyStore from 'stores/assembly';
+
 import Root from 'containers/root';
 
-const computeStore = new ComputeStore(25);
+const computeStore = new ComputeStore(15);
+const assemblyStore = new AssemblyStore();
 
-// debuf
+// debug
 (window as any).stores = {
-  compute: computeStore
+  compute: computeStore,
+  assembly: assemblyStore,
 };
 
 ReactDOM.render(
-  <Provider computeStore={computeStore}>
+  <Provider computeStore={computeStore} assemblyStore={assemblyStore}>
     <Root />
   </Provider>,
   document.getElementById('react-container')

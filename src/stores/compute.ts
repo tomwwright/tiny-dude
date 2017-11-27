@@ -7,7 +7,7 @@ export default class ComputeStore {
   @observable memory: number[] = [];
   @observable memorySize: number = 100;
 
-  @observable out: number = 0;
+  @observable outputs: number[] = [];
 
   @observable isRunning: boolean = false;
 
@@ -22,6 +22,7 @@ export default class ComputeStore {
     this.accumulator = 0;
     this.counter = 0;
     this.memory = [];
+    this.outputs = [];
     for (let i = 0; i < this.memorySize; ++i) {
       this.memory.push(0);
     }
@@ -51,7 +52,7 @@ export default class ComputeStore {
 
   private opcode(input: number): number {
     const opcode = Math.floor(input / 100);
-    const value = input % 100;
+    const argument = input % 100;
 
     let goto = null;
 
@@ -60,25 +61,25 @@ export default class ComputeStore {
         this.halt();
         break;
       case 1:
-        this.add(value);
+        this.add(argument);
         break;
       case 2:
-        this.subtract(value);
+        this.subtract(argument);
         break;
       case 4:
-        this.store(value);
+        this.store(argument);
         break;
       case 5:
-        this.load(value);
+        this.load(argument);
         break;
       case 6:
-        goto = this.jump(value);
+        goto = this.jump(argument);
         break;
       case 7:
-        goto = this.branchZero(value);
+        goto = this.branchZero(argument);
         break;
       case 8:
-        goto = this.branchPositive(value);
+        goto = this.branchPositive(argument);
         break;
       case 9:
         this.output();
@@ -92,20 +93,22 @@ export default class ComputeStore {
     this.isRunning = false;
   }
 
-  private add(value: number) {
+  private add(address: number) {
+    const value = this.memory[address];
     this.accumulator = (this.accumulator + value) % 1000;
   }
 
-  private subtract(value: number) {
+  private subtract(address: number) {
+    const value = this.memory[address];
     this.accumulator = (this.accumulator - value) % 1000;
   }
 
-  private store(value: number) {
-    this.memory[value] = this.accumulator;
+  private store(address: number) {
+    this.memory[address] = this.accumulator;
   }
 
-  private load(value: number) {
-    this.accumulator = this.memory[value];
+  private load(address: number) {
+    this.accumulator = this.memory[address];
   }
 
   private jump(value: number) {
@@ -121,6 +124,6 @@ export default class ComputeStore {
   }
 
   private output() {
-    this.out = this.accumulator;
+    this.outputs.push(this.accumulator);
   }
 }
