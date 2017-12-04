@@ -8,7 +8,7 @@ import AssemblyStore from 'stores/assembly';
 
 import Root from 'containers/root';
 
-const computeStore = new ComputeStore(15);
+const computeStore = new ComputeStore(100);
 const assemblyStore = new AssemblyStore();
 
 // debug
