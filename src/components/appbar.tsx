@@ -1,17 +1,25 @@
 import * as React from 'react';
 
 import { AppBar, Toolbar, Typography, Button } from 'material-ui';
-import { Face as FaceIcon } from 'material-ui-icons';
+import { Face as FaceIcon, Code as CodeIcon, InfoOutline as InfoIcon } from 'material-ui-icons';
 
-const TinyDudeAppBar: React.StatelessComponent<{}> = () => (
+type TinyDudeAppBarProps = {
+  githubUrl: string;
+};
+
+const TinyDudeAppBar: React.StatelessComponent<TinyDudeAppBarProps> = props => (
   <AppBar position="static" style={{ marginBottom: '10px' }}>
     <Toolbar>
       <FaceIcon style={{ paddingRight: '10px' }} />
       <Typography type="headline" color="inherit" style={{ flex: 1 }}>
         Tiny Dude
       </Typography>
-      <Button color="contrast">About</Button>
-      <Button color="contrast">Help</Button>
+      <Button href={props.githubUrl} color="contrast">
+        <CodeIcon style={{ paddingRight: '10px' }} /> GitHub
+      </Button>
+      <Button href="/about" color="contrast">
+        <InfoIcon style={{ paddingRight: '10px' }} /> About
+      </Button>
     </Toolbar>
   </AppBar>
 );

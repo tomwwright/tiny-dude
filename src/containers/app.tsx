@@ -2,6 +2,8 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import { Paper, Typography, Grid, TextField, Button } from 'material-ui';
+import { FileDownload as FileDownloadIcon, FlightTakeoff as FlightTakeoffIcon } from 'material-ui-icons';
+
 import AppBar from 'components/appbar';
 import MemoryGrid from 'components/memorygrid';
 import AssemblyEditor from 'containers/assemblyeditor';
@@ -10,7 +12,7 @@ import AssemblyStore from 'stores/assembly';
 
 const App: React.StatelessComponent<{ computeStore?: ComputeStore; assemblyStore?: AssemblyStore }> = props => (
   <div>
-    <AppBar />
+    <AppBar githubUrl="https://github.com/tomwwright/tiny-dude" />
     <Grid container>
       <Grid item xs={12} sm={4}>
         <Paper>
@@ -38,14 +40,28 @@ const App: React.StatelessComponent<{ computeStore?: ComputeStore; assemblyStore
               <Typography type="headline" component="h3">
                 Controls.
               </Typography>
-              <Button
-                raised
-                color="primary"
-                disabled={!props.computeStore.isRunning}
-                onClick={() => props.computeStore.cycle()}
-              >
-                Cycle
-              </Button>
+              <Grid container>
+                <Grid item>
+                  <Button
+                    raised
+                    color="primary"
+                    disabled={props.computeStore.isRunning || props.assemblyStore.program.length == 0}
+                    onClick={() => props.computeStore.init(props.assemblyStore.program)}
+                  >
+                    <FileDownloadIcon /> Load
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    raised
+                    color="accent"
+                    disabled={!props.computeStore.isRunning}
+                    onClick={() => props.computeStore.cycle()}
+                  >
+                    <FlightTakeoffIcon /> Start
+                  </Button>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
           <Grid item xs={4}>
@@ -54,7 +70,7 @@ const App: React.StatelessComponent<{ computeStore?: ComputeStore; assemblyStore
                 Instruction.
               </Typography>
               <Typography type="body1" component="p">
-                {('00' + props.computeStore.counter).slice(-3)}
+                {('0' + props.computeStore.counter).slice(-2)}
               </Typography>
             </Paper>
           </Grid>

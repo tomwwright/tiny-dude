@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Paper, Typography, Grid, ListItemText } from 'material-ui';
+import { withStyles, WithStyles } from 'material-ui/styles';
 
 import Scrollable from 'components/scrollable';
 import ComputeStore from 'stores/compute';
@@ -9,11 +10,23 @@ type MemoryProps = {
   computeStore?: ComputeStore;
 };
 
-const MemoryGrid: React.StatelessComponent<MemoryProps> = ({ computeStore }) => (
+const styles = withStyles<string>(theme => ({
+  memoryCell: {
+    margin: '5px',
+    width: '50px',
+  },
+  programCountMemoryCell: {
+    border: `1px solid ${theme.palette.primary.A400}`,
+    margin: '4px',
+    width: '50px',
+  },
+}));
+
+const MemoryGrid: React.StatelessComponent<WithStyles & MemoryProps> = ({ computeStore, classes }) => (
   <Scrollable height={200}>
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       {computeStore.memory.map((memory, i) => (
-        <Paper key={i} style={{ margin: '5px', width: '50px' }}>
+        <Paper key={i} className={computeStore.counter == i ? classes.programCountMemoryCell : classes.memoryCell}>
           <ListItemText primary={('00' + memory).slice(-3)} secondary={('0' + i).slice(-2)} />
         </Paper>
       ))}
@@ -21,4 +34,4 @@ const MemoryGrid: React.StatelessComponent<MemoryProps> = ({ computeStore }) => 
   </Scrollable>
 );
 
-export default inject('computeStore')(observer(MemoryGrid));
+export default inject('computeStore')(styles(observer(MemoryGrid)));
