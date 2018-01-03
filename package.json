@@ -5,6 +5,7 @@
   "scripts": {
     "compile": "tsc",
     "build": "rm -rf build/* && yarn compile && webpack --config webpack.config.js",
+    "build:production": "rm -rf build/* && yarn compile && webpack --config webpack.config.js --optimize-minimize",
     "test": "yarn compile && NODE_PATH=\"$NODE_PATH:$PWD/build/es5\" mocha --recursive build/es5/**/*.test.js"
   },
   "repository": {
