@@ -5,20 +5,23 @@ import { Provider } from 'mobx-react';
 
 import ComputeStore from 'stores/compute';
 import AssemblyStore from 'stores/assembly';
+import RunStore from 'stores/run';
 
 import Root from 'containers/root';
 
 const computeStore = new ComputeStore(100);
 const assemblyStore = new AssemblyStore();
+const runStore = new RunStore(computeStore);
 
 // debug
 (window as any).stores = {
   compute: computeStore,
   assembly: assemblyStore,
+  run: runStore,
 };
 
 ReactDOM.render(
-  <Provider computeStore={computeStore} assemblyStore={assemblyStore}>
+  <Provider computeStore={computeStore} assemblyStore={assemblyStore} runStore={runStore}>
     <Root />
   </Provider>,
   document.getElementById('react-container')

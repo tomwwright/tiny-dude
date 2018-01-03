@@ -9,27 +9,43 @@ import MemoryGrid from 'components/memorygrid';
 import AssemblyEditor from 'containers/assemblyeditor';
 import ComputeStore from 'stores/compute';
 import AssemblyStore from 'stores/assembly';
+import RunStore from 'stores/run';
 
-const App: React.StatelessComponent<{ computeStore?: ComputeStore; assemblyStore?: AssemblyStore }> = props => (
+const App: React.StatelessComponent<{
+  computeStore?: ComputeStore;
+  assemblyStore?: AssemblyStore;
+  runStore?: RunStore;
+}> = props => (
   <div>
     <AppBar githubUrl="https://github.com/tomwwright/tiny-dude" />
     <Grid container>
-      <Grid item xs={12} sm={4}>
-        <Paper>
-          <Typography type="headline" component="h3">
-            Code.
-          </Typography>
-          <AssemblyEditor />
-        </Paper>
-      </Grid>
-
-      <Grid item xs={12} sm={8}>
+      <Grid item sm={12} md={4}>
         <Grid container>
           <Grid item xs={12}>
             <Paper>
               <Typography type="headline" component="h3">
                 Welcome.
               </Typography>
+              <Typography type="body1" component="p">
+                Information and stuff will go here.
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper>
+              <Typography type="headline" component="h3">
+                Code.
+              </Typography>
+              <AssemblyEditor />
+            </Paper>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid item sm={12} md={8}>
+        <Grid container>
+          <Grid item xs={12}>
+            <Paper>
               <Typography type="body1" component="p">
                 Information and stuff will go here.
               </Typography>
@@ -55,8 +71,8 @@ const App: React.StatelessComponent<{ computeStore?: ComputeStore; assemblyStore
                   <Button
                     raised
                     color="accent"
-                    disabled={!props.computeStore.isRunning}
-                    onClick={() => props.computeStore.cycle()}
+                    disabled={!props.computeStore.isRunning || props.runStore.isRunning}
+                    onClick={() => props.runStore.run(1000)}
                   >
                     <FlightTakeoffIcon /> Start
                   </Button>
@@ -90,7 +106,7 @@ const App: React.StatelessComponent<{ computeStore?: ComputeStore; assemblyStore
                 Outputs.
               </Typography>
               <Typography type="body1" component="p">
-                {props.computeStore.outputs.map(output => ('00' + output).slice(-3)).join(', ')}
+                [ {props.computeStore.outputs.map(output => ('00' + output).slice(-3)).join(', ')} ]
               </Typography>
             </Paper>
           </Grid>
@@ -108,4 +124,4 @@ const App: React.StatelessComponent<{ computeStore?: ComputeStore; assemblyStore
   </div>
 );
 
-export default inject('computeStore', 'assemblyStore')(observer(App));
+export default inject('computeStore', 'assemblyStore', 'runStore')(observer(App));

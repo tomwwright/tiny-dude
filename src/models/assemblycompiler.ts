@@ -84,10 +84,13 @@ export const enum AssemblyToken {
 }
 
 export function compileAssembly(source: string): AssemblyCompilerOutput {
+  if (source.charAt(source.length - 1) != '\n') source += '\n';
+
   const tokens = source
     .replace(/\n/g, SOURCE_SEPERATOR + TOKEN_EOL + SOURCE_SEPERATOR)
     .split(SOURCE_SEPERATOR)
-    .filter(token => token.length > 0);
+    .filter(token => token.length > 0)
+    .map(token => token.toUpperCase());
 
   const statements: AssemblyStatement[] = [];
 
