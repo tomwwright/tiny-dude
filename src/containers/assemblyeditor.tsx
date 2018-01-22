@@ -2,7 +2,7 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { List, ListItem, ListItemIcon, ListItemText, Button, Typography, Grid } from 'material-ui';
 import { WithStyles, withStyles, Theme } from 'material-ui/styles';
-import { Error as ErrorIcon, Check as CheckIcon } from 'material-ui-icons';
+import { FileDownload as FileDownloadIcon, Error as ErrorIcon, Check as CheckIcon } from 'material-ui-icons';
 
 import CodeEditor from 'components/codeeditor';
 import Scrollable from 'components/scrollable';
@@ -28,12 +28,26 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
   <div>
     <CodeEditor hasError={assemblyStore.compileErrors.length > 0} onChange={code => assemblyStore.compile(code)} />
     {assemblyStore.compileErrors.length == 0 ? (
-      <ListItem>
-        <ListItemIcon>
-          <CheckIcon />
-        </ListItemIcon>
-        <ListItemText primary="Compiled!" secondary={`${assemblyStore.program.length} opcodes`} />
-      </ListItem>
+      <Grid container alignItems="center" justify="space-between">
+        <Grid item>
+          <ListItem>
+            <ListItemIcon>
+              <CheckIcon />
+            </ListItemIcon>
+            <ListItemText primary="Compiled!" secondary={`${assemblyStore.program.length} opcodes`} />
+          </ListItem>
+        </Grid>
+        <Grid item>
+          <Button
+            raised
+            color="primary"
+            disabled={computeStore.isRunning || assemblyStore.program.length == 0}
+            onClick={() => computeStore.init(assemblyStore.program)}
+          >
+            <FileDownloadIcon /> Load
+          </Button>
+        </Grid>
+      </Grid>
     ) : (
       <Scrollable height={200}>
         <List dense={true}>

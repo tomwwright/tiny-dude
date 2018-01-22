@@ -60,21 +60,21 @@ const App: React.StatelessComponent<{
                 <Grid item>
                   <Button
                     raised
-                    color="primary"
-                    disabled={props.computeStore.isRunning || props.assemblyStore.program.length == 0}
-                    onClick={() => props.computeStore.init(props.assemblyStore.program)}
-                  >
-                    <FileDownloadIcon /> Load
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    raised
                     color="accent"
                     disabled={!props.computeStore.isRunning || props.runStore.isRunning}
                     onClick={() => props.runStore.run(1000)}
                   >
                     <FlightTakeoffIcon /> Start
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    raised
+                    color="primary"
+                    disabled={!props.runStore.isRunning}
+                    onClick={() => props.runStore.stop()}
+                  >
+                    <FlightLandIcon /> Stop
                   </Button>
                 </Grid>
               </Grid>
