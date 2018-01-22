@@ -59,6 +59,7 @@ export default class ComputeStore {
     switch (opcode) {
       case 0:
         this.halt();
+        goto = this.counter;
         break;
       case 1:
         this.add(argument);
