@@ -15,6 +15,7 @@ import OutputsGrid from 'components/outputsgrid';
 import { Welcome } from 'components/welcome';
 import { CodeHelpModal } from 'components/codehelpmodal';
 import AssemblyEditor from 'containers/assemblyeditor';
+import { Footer } from 'components/footer';
 import ComputeStore from 'stores/compute';
 import AssemblyStore from 'stores/assembly';
 import RunStore from 'stores/run';
@@ -138,6 +139,16 @@ const App: React.StatelessComponent<{
         </Grid>
       </Grid>
     </Grid>
+    <Footer>
+      <Typography type="caption" component="p" style={{ textAlign: 'center' }}>
+        TinyDude by Tom Wright{' '}
+      </Typography>
+      <Typography type="caption" component="p" style={{ textAlign: 'center' }}>
+        <a style={{ color: 'inherit' }} href="https://tomwwright.com">
+          tomwwright.com
+        </a>
+      </Typography>
+    </Footer>
   </div>
 );
 
