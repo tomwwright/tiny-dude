@@ -5,7 +5,6 @@ import { MuiThemeProvider } from 'material-ui/styles';
 import theme from 'theme';
 
 import App from 'containers/app';
-import AssemblyEditor from 'containers/assemblyeditor';
 
 const Root: React.StatelessComponent<{}> = () => (
   <MuiThemeProvider theme={theme}>

@@ -12,6 +12,7 @@ import { withStyles, WithStyles } from 'material-ui/styles';
 import AppBar from 'components/appbar';
 import MemoryGrid from 'components/memorygrid';
 import OutputsGrid from 'components/outputsgrid';
+import { Welcome } from 'components/welcome';
 import { CodeHelpModal } from 'components/codehelpmodal';
 import AssemblyEditor from 'containers/assemblyeditor';
 import ComputeStore from 'stores/compute';
@@ -31,14 +32,7 @@ const App: React.StatelessComponent<{
       <Grid item sm={12} md={4}>
         <Grid container>
           <Grid item xs={12}>
-            <Paper>
-              <Typography type="headline" component="h3">
-                Welcome.
-              </Typography>
-              <Typography type="body1" component="p">
-                Information and stuff will go here.
-              </Typography>
-            </Paper>
+            <Welcome emptyProp="" />
           </Grid>
           <Grid item xs={12}>
             <Paper>
@@ -147,4 +141,4 @@ const App: React.StatelessComponent<{
   </div>
 );
 
-export default inject('computeStore', 'assemblyStore', 'runStore')(observer(App));
+export default inject('computeStore', 'assemblyStore', 'runStore', 'uiStore')(observer(App));
