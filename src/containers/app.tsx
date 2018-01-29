@@ -31,7 +31,7 @@ const App: React.StatelessComponent<{
   uiStore?: UiStore;
 }> = props => (
   <div>
-    <div style={{ minHeight: '100%' }}>
+    <div style={{ minHeight: '100%', maxWidth: '100%' }}>
       <AppBar githubUrl="https://github.com/tomwwright/tiny-dude" />
       <Grid container>
         <Grid item sm={12} md={4}>
