@@ -31,7 +31,7 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
   <div>
     <CodeEditor hasError={assemblyStore.compileErrors.length > 0} onChange={code => assemblyStore.compile(code)} />
     {assemblyStore.compileErrors.length == 0 ? (
-      <Grid container alignItems="center" justify="space-between">
+      <Grid container style={{ marginTop: 0 }} alignItems="center" justify="space-between">
         <Grid item>
           <ListItem>
             <ListItemIcon>

@@ -21,17 +21,17 @@ const WelcomeComponent: React.StatelessComponent<{ emptyProp: string } & WithSty
   <Paper className={props.classes.greyBackground}>
     <Typography className={props.classes.whiteText} type="body1" component="p">
       Tiny Dude is a web implementation of the{' '}
-      <a className={props.classes.link} href="https://en.wikipedia.org/wiki/Little_man_computer">
+      <a className={props.classes.link} target="about:blank" href="https://en.wikipedia.org/wiki/Little_man_computer">
         Little Man Computer
       </a>{' '}
       (LMC) instructional model, built with{' '}
-      <a className={props.classes.link} href="https://reactjs.org/">
+      <a className={props.classes.link} target="about:blank" href="https://reactjs.org/">
         React
       </a>,{' '}
-      <a className={props.classes.link} href="https://mobx.js.org/">
+      <a className={props.classes.link} target="about:blank" href="https://mobx.js.org/">
         MobX
       </a>, and{' '}
-      <a className={props.classes.link} href="https://material-ui-next.com/">
+      <a className={props.classes.link} target="about:blank" href="https://material-ui-next.com/">
         Material UI
       </a>.
     </Typography>
