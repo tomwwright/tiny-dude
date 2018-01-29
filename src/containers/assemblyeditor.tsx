@@ -8,6 +8,7 @@ import CodeEditor from 'components/codeeditor';
 import Scrollable from 'components/scrollable';
 import AssemblyStore from 'stores/assembly';
 import ComputeStore from 'stores/compute';
+import RunStore from 'stores/run';
 
 const style = withStyles<string>((theme: Theme) => ({
   errorText: {
@@ -18,11 +19,13 @@ const style = withStyles<string>((theme: Theme) => ({
 type AssemblyEditorProps = {
   computeStore?: ComputeStore;
   assemblyStore?: AssemblyStore;
+  runStore?: RunStore;
 };
 
 const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps> = ({
   computeStore,
   assemblyStore,
+  runStore,
   classes,
 }) => (
   <div>
@@ -41,7 +44,7 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
           <Button
             raised
             color="primary"
-            disabled={computeStore.isRunning || assemblyStore.program.length == 0}
+            disabled={runStore.isRunning || assemblyStore.program.length == 0}
             onClick={() => computeStore.init(assemblyStore.program)}
           >
             <FileDownloadIcon /> Load
@@ -69,4 +72,4 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
   </div>
 );
 
-export default inject('computeStore', 'assemblyStore')(style(observer(AssemblyEditor)));
+export default inject('computeStore', 'assemblyStore', 'runStore')(style(observer(AssemblyEditor)));
