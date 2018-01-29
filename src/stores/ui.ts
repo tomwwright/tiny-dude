@@ -16,11 +16,11 @@ export default class UiStore {
 
   @action
   openControlsHelp() {
-    this.isCodeHelpOpen = true;
+    this.isControlsHelpOpen = true;
   }
 
   @action
   closeControlsHelp() {
-    this.isCodeHelpOpen = false;
+    this.isControlsHelpOpen = false;
   }
 }

@@ -11,12 +11,12 @@ type ControlsHelpModalComponentProps = {
 const ControlsHelpModalComponent: React.StatelessComponent<ControlsHelpModalComponentProps> = props => (
   <div>
     <Modal
-      aria-labelledby="code-help-modal-title"
-      show={props.uiStore.isCodeHelpOpen}
-      onRequestClose={() => props.uiStore.closeCodeHelp()}
+      aria-labelledby="controls-help-modal-title"
+      show={props.uiStore.isControlsHelpOpen}
+      onRequestClose={() => props.uiStore.closeControlsHelpModal()}
     >
       <Paper>
-        <Typography type="title" id="code-help-modal-title">
+        <Typography type="title" id="controls-help-modal-title">
           TinyDude Controls Help
         </Typography>
         <Typography type="body1">Yeah sweet.</Typography>
