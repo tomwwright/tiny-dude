@@ -2,6 +2,8 @@
 
 Tiny Dude is a web implementation of the [Little Man Computer](https://en.wikipedia.org/wiki/Little_man_computer) (LMC) instructional model, built with [React](https://reactjs.org/), [MobX](https://mobx.js.org/), and [Material UI](https://material-ui-next.com/).
 
+Check it out [here](https://tinydude.tomwwright.com).
+
 ## TinyDude Help.
 
 ### Code.
