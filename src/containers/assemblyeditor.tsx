@@ -29,7 +29,7 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
   classes,
 }) => (
   <div>
-    <CodeEditor hasError={assemblyStore.compileErrors.length > 0} onChange={code => assemblyStore.compile(code)} />
+    <CodeEditor source={assemblyStore.source} hasError={assemblyStore.compileErrors.length > 0} onChange={code => assemblyStore.compile(code)} />
     {assemblyStore.compileErrors.length == 0 ? (
       <Grid container style={{ marginTop: 0 }} alignItems="center" justify="space-between">
         <Grid item>

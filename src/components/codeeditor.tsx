@@ -17,14 +17,16 @@ const styles = withStyles<string>((theme: Theme) => ({
 }));
 
 type CodeEditorProps = {
+  source: string;
   onChange: (value: string) => void;
   hasError?: boolean;
 };
 
-const CodeEditor: React.StatelessComponent<WithStyles & CodeEditorProps> = ({ onChange, classes, hasError }) => (
+const CodeEditor: React.StatelessComponent<WithStyles & CodeEditorProps> = ({ onChange, source, classes, hasError }) => (
   <div className={hasError ? classes.borderError : classes.border}>
     <Input
       className={classes.input}
+      value={source}
       disableUnderline={true}
       rows={20}
       fullWidth={true}
