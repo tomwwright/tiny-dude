@@ -1,13 +1,13 @@
-import { observable, computed, action } from 'mobx';
+import { observable, computed, action } from "mobx";
 
-import ComputeStore from 'stores/compute';
+import ComputeStore from "./compute";
 
 export default class RunStore {
   @observable isRunning: boolean = false;
 
   computeStore: ComputeStore;
 
-  runInterval: NodeJS.Timer;
+  runInterval: NodeJS.Timer = null;
 
   constructor(computeStore: ComputeStore) {
     this.computeStore = computeStore;

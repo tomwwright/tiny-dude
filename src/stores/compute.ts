@@ -1,4 +1,4 @@
-import { observable, computed, action } from 'mobx';
+import { observable, computed, action } from "mobx";
 
 export default class ComputeStore {
   @observable accumulator: number = 0;
@@ -50,7 +50,7 @@ export default class ComputeStore {
     this.counter = goto != null ? goto : this.counter + 1;
   }
 
-  private opcode(input: number): number {
+  private opcode(input: number): number | null {
     const opcode = Math.floor(input / 100);
     const argument = input % 100;
 

@@ -1,9 +1,9 @@
-import { observable, computed, action } from 'mobx';
+import { observable, computed, action } from "mobx";
 
-import { compileAssembly, CompilerError } from 'models/assemblycompiler';
+import { compileAssembly, CompilerError } from "../models/assemblycompiler";
 
 export default class AssemblyStore {
-  @observable source: string = '';
+  @observable source: string = "";
   @observable program: number[] = [];
   @observable compileErrors: CompilerError[] = [];
 

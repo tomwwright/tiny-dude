@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
 export const Footer: React.StatelessComponent = ({ children }) => (
   <div
     style={{
-      marginTop: '-50px',
+      marginTop: "-50px"
     }}
   >
     {children}

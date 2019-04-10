@@ -1,21 +1,19 @@
-import { comparer } from 'mobx/lib/types/comparer';
-
-const SOURCE_SEPERATOR = ' ';
-export const TOKEN_EOL = '[EOL]';
-export const TOKEN_COMMENT = '//';
+const SOURCE_SEPERATOR = " ";
+export const TOKEN_EOL = "[EOL]";
+export const TOKEN_COMMENT = "//";
 
 export enum Mnemonic {
-  HLT = 'HLT',
-  ADD = 'ADD',
-  SUB = 'SUB',
-  STA = 'STA',
-  LDA = 'LDA',
-  BRA = 'BRA',
-  BRZ = 'BRZ',
-  BRP = 'BRP',
-  OUT = 'OUT',
-  INP = 'INP',
-  DAT = 'DAT',
+  HLT = "HLT",
+  ADD = "ADD",
+  SUB = "SUB",
+  STA = "STA",
+  LDA = "LDA",
+  BRA = "BRA",
+  BRZ = "BRZ",
+  BRP = "BRP",
+  OUT = "OUT",
+  INP = "INP",
+  DAT = "DAT"
 }
 
 export const OpCodes = {
@@ -29,7 +27,7 @@ export const OpCodes = {
   [Mnemonic.BRZ]: 700,
   [Mnemonic.BRP]: 800,
   [Mnemonic.OUT]: 901,
-  [Mnemonic.INP]: 902,
+  [Mnemonic.INP]: 902
 };
 
 export type CompilerError = {
@@ -42,7 +40,7 @@ export type AssemblyCompilerOutput = {
   errors: CompilerError[];
 };
 
-type AssemblyStatement = {
+export type AssemblyStatement = {
   line: number;
   label: string;
   instruction: Mnemonic;
@@ -54,7 +52,7 @@ export type AssemblyParser = {
   state: AssemblyParserState;
   line: number;
   statements: AssemblyStatement[];
-  currentStatement: AssemblyStatement;
+  currentStatement: AssemblyStatement | null;
   errors: CompilerError[];
   fatalError: boolean;
 };
@@ -65,26 +63,26 @@ export type AssemblyCompiler = {
   errors: CompilerError[];
 };
 
-export const enum AssemblyParserState {
-  PROGRAM = 'program',
-  COMMENT = 'comment',
-  EOL = 'eol',
-  STATEMENT = 'statement',
-  INSTRUCTION = 'instruction',
-  ARGUMENT = 'argument',
-  ERROR_SYNTAX = 'error.syntax',
+export enum AssemblyParserState {
+  PROGRAM = "program",
+  COMMENT = "comment",
+  EOL = "eol",
+  STATEMENT = "statement",
+  INSTRUCTION = "instruction",
+  ARGUMENT = "argument",
+  ERROR_SYNTAX = "error.syntax"
 }
 
-export const enum AssemblyToken {
-  EOL = 'eol',
-  COMMENT = 'comment',
-  INSTRUCTION = 'instruction',
-  LABEL = 'label',
-  NUMBER = 'number',
+export enum AssemblyToken {
+  EOL = "eol",
+  COMMENT = "comment",
+  INSTRUCTION = "instruction",
+  LABEL = "label",
+  NUMBER = "number"
 }
 
 export function compileAssembly(source: string): AssemblyCompilerOutput {
-  if (source.charAt(source.length - 1) != '\n') source += '\n';
+  if (source.charAt(source.length - 1) != "\n") source += "\n";
 
   const tokens = source
     .replace(/\n/g, SOURCE_SEPERATOR + TOKEN_EOL + SOURCE_SEPERATOR)
@@ -101,7 +99,7 @@ export function compileAssembly(source: string): AssemblyCompilerOutput {
     statements: [],
     errors: [],
     currentStatement: null,
-    fatalError: false,
+    fatalError: false
   };
 
   while (parser.tokens.length > 0 && !parser.fatalError) {
@@ -111,21 +109,21 @@ export function compileAssembly(source: string): AssemblyCompilerOutput {
   if (parser.errors.length > 0) {
     return {
       program: [],
-      errors: parser.errors,
+      errors: parser.errors
     };
   }
 
   const compiler: AssemblyCompiler = {
     statements: parser.statements,
     program: [],
-    errors: [],
+    errors: []
   };
 
   compile(compiler);
 
   return {
     program: compiler.program,
-    errors: compiler.errors,
+    errors: compiler.errors
   };
 }
 
@@ -134,7 +132,7 @@ export function parse(compiler: AssemblyParser) {
   if (!parser) {
     compiler.errors.push({
       line: compiler.line,
-      message: `Compiler entered illegal state '${compiler.state}'`,
+      message: `Compiler entered illegal state '${compiler.state}'`
     });
     compiler.fatalError = true;
   } else {
@@ -149,7 +147,7 @@ const parsers: { [state: string]: (parser: AssemblyParser) => void } = {
   [AssemblyParserState.EOL]: parseEOL,
   [AssemblyParserState.STATEMENT]: parseStatement,
   [AssemblyParserState.INSTRUCTION]: parseInstruction,
-  [AssemblyParserState.ARGUMENT]: parseArgument,
+  [AssemblyParserState.ARGUMENT]: parseArgument
 };
 
 function parseEOL(compiler: AssemblyParser): void {
@@ -169,7 +167,7 @@ function parseEOL(compiler: AssemblyParser): void {
     compiler.state = AssemblyParserState.ERROR_SYNTAX;
     compiler.errors.push({
       line: compiler.line,
-      message: `Illegal token '${token}': expected EOL`,
+      message: `Illegal token '${token}': expected EOL`
     });
   }
 }
@@ -179,7 +177,7 @@ function parseStatement(compiler: AssemblyParser) {
     line: compiler.line,
     instruction: null,
     label: null,
-    argument: null,
+    argument: null
   };
 
   const token = compiler.tokens[0];
@@ -194,7 +192,7 @@ function parseStatement(compiler: AssemblyParser) {
     compiler.currentStatement = null;
     compiler.errors.push({
       line: compiler.line,
-      message: `Illegal token '${token}': expected LABEL|INSTRUCTION`,
+      message: `Illegal token '${token}': expected LABEL|INSTRUCTION`
     });
   }
 }
@@ -210,7 +208,7 @@ function parseInstruction(compiler: AssemblyParser) {
     compiler.currentStatement = null;
     compiler.errors.push({
       line: compiler.line,
-      message: `Illegal token '${token}': expected INSTRUCTION`,
+      message: `Illegal token '${token}': expected INSTRUCTION`
     });
   }
 }
@@ -231,7 +229,7 @@ function parseArgument(compiler: AssemblyParser) {
     compiler.currentStatement = null;
     compiler.errors.push({
       line: compiler.line,
-      message: `Illegal token '${token}': expected LABEL|NUMBER|EOL`,
+      message: `Illegal token '${token}': expected LABEL|NUMBER|EOL`
     });
   }
 }
@@ -305,7 +303,7 @@ function compile(compiler: AssemblyCompiler) {
       } else {
         compiler.errors.push({
           line: statement.line,
-          message: `Label already defined: ${statement.label}`,
+          message: `Label already defined: ${statement.label}`
         });
       }
     }
@@ -322,7 +320,7 @@ function compile(compiler: AssemblyCompiler) {
         if (statement.argument == null) {
           compiler.errors.push({
             line: statement.line,
-            message: `Missing argument for instruction: ${statement.instruction}`,
+            message: `Missing argument for instruction: ${statement.instruction}`
           });
         }
         break;
@@ -332,7 +330,7 @@ function compile(compiler: AssemblyCompiler) {
         if (statement.argument != null) {
           compiler.errors.push({
             line: statement.line,
-            message: `Argument specified for non-argument instruction: ${statement.instruction}`,
+            message: `Argument specified for non-argument instruction: ${statement.instruction}`
           });
         }
         break;
@@ -343,7 +341,7 @@ function compile(compiler: AssemblyCompiler) {
     if (statement.argument && matchLabel(statement.argument) && labelsToAddress[statement.argument] === undefined) {
       compiler.errors.push({
         line: statement.line,
-        message: `Label not defined: ${statement.argument}`,
+        message: `Label not defined: ${statement.argument}`
       });
     }
   });
@@ -352,9 +350,7 @@ function compile(compiler: AssemblyCompiler) {
     compiler.statements.forEach((statement, i) => {
       let code = OpCodes[statement.instruction];
       if (statement.argument) {
-        const argument = matchNumber(statement.argument)
-          ? Number.parseInt(statement.argument)
-          : labelsToAddress[statement.argument];
+        const argument = matchNumber(statement.argument) ? Number.parseInt(statement.argument) : labelsToAddress[statement.argument];
         code += argument;
       }
       compiler.program.push(code);
