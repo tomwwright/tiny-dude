@@ -3,6 +3,7 @@ import { AST } from "../types";
 
 import { evaluateBinaryAdd } from "./operators/binaryAdd";
 import { evaluateBinarySubtract } from "./operators/binarySubtract";
+import { evaluateBinaryGreaterThan } from "./operators/binaryGreaterThan";
 
 export function evaluateBinary(
   compiler: TinyDudePlusCompiler,
@@ -15,6 +16,18 @@ export function evaluateBinary(
       break;
     case "-":
       evaluateBinarySubtract(compiler, binary, evaluate);
+      break;
+    case ">":
+      evaluateBinaryGreaterThan(compiler, binary, evaluate);
+      break;
+    case "<":
+      const switchedBinary: AST.BinaryExpression = {
+        ...binary,
+        left: binary.right,
+        right: binary.left,
+        operator: ">"
+      };
+      evaluateBinaryGreaterThan(compiler, switchedBinary, evaluate);
       break;
     default:
       throw new Error(`unhandled binary expression: ${binary.operator}`);
