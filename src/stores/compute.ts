@@ -2,6 +2,7 @@ import { observable, computed, action } from "mobx";
 
 export default class ComputeStore {
   @observable accumulator: number = 0;
+  @observable hasOverOrUnderflowed: null | "overflow" | "underflow" = null;
   @observable counter: number = 0;
 
   @observable memory: number[] = [];
@@ -20,6 +21,7 @@ export default class ComputeStore {
 
   private reset() {
     this.accumulator = 0;
+    this.hasOverOrUnderflowed = null;
     this.counter = 0;
     this.memory = [];
     this.outputs = [];
@@ -96,12 +98,20 @@ export default class ComputeStore {
 
   private add(address: number) {
     const value = this.memory[address];
-    this.accumulator = (this.accumulator + value) % 1000;
+    this.accumulator = this.accumulator + value;
+    if (this.accumulator > 999) {
+      this.hasOverOrUnderflowed = "overflow";
+      this.accumulator = this.accumulator % 1000;
+    }
   }
 
   private subtract(address: number) {
     const value = this.memory[address];
-    this.accumulator = (this.accumulator - value) % 1000;
+    this.accumulator = this.accumulator - value;
+    if (this.accumulator < 0) {
+      this.hasOverOrUnderflowed = "underflow";
+      this.accumulator = this.accumulator % 1000;
+    }
   }
 
   private store(address: number) {
@@ -110,6 +120,7 @@ export default class ComputeStore {
 
   private load(address: number) {
     this.accumulator = this.memory[address];
+    this.hasOverOrUnderflowed = null;
   }
 
   private jump(value: number) {
@@ -117,11 +128,11 @@ export default class ComputeStore {
   }
 
   private branchZero(value: number) {
-    return this.accumulator === 0 ? value : null;
+    return this.accumulator === 0 && !this.hasOverOrUnderflowed ? value : null;
   }
 
   private branchPositive(value: number) {
-    return this.accumulator > 0 ? value : null;
+    return this.accumulator >= 0 && !this.hasOverOrUnderflowed ? value : null;
   }
 
   private output() {

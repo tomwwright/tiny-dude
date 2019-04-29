@@ -1,8 +1,13 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react";
 
-import { Paper, Typography, Grid, TextField, IconButton, Button, Tooltip } from "@material-ui/core";
-import { FlightTakeoff as FlightTakeoffIcon, FlightLand as FlightLandIcon, HelpOutline as HelpOutlineIcon } from "@material-ui/icons";
+import { Paper, Typography, Grid, Chip, Avatar, IconButton, Button, Tooltip } from "@material-ui/core";
+import {
+  FlightTakeoff as FlightTakeoffIcon,
+  FlightLand as FlightLandIcon,
+  HelpOutline as HelpOutlineIcon,
+  ErrorOutline as ErrorOutlineIcon
+} from "@material-ui/icons";
 
 import AppBar from "../components/appbar";
 import MemoryGrid from "../components/memorygrid";
@@ -44,7 +49,11 @@ const App: React.StatelessComponent<{
                   </Grid>
                   <Grid item>
                     <Tooltip title="Open Code Help" placement="bottom">
-                      <IconButton color="primary" aria-label="Open Code Help" onClick={() => props.uiStore.openCodeHelp()}>
+                      <IconButton
+                        color="primary"
+                        aria-label="Open Code Help"
+                        onClick={() => props.uiStore.openCodeHelp()}
+                      >
                         <HelpOutlineIcon />
                       </IconButton>
                     </Tooltip>
@@ -69,7 +78,11 @@ const App: React.StatelessComponent<{
                   </Grid>
                   <Grid item>
                     <Tooltip title="Open Controls Help" placement="bottom">
-                      <IconButton color="primary" aria-label="Open Controls Help" onClick={() => props.uiStore.openControlsHelp()}>
+                      <IconButton
+                        color="primary"
+                        aria-label="Open Controls Help"
+                        onClick={() => props.uiStore.openControlsHelp()}
+                      >
                         <HelpOutlineIcon />
                       </IconButton>
                     </Tooltip>
@@ -78,7 +91,11 @@ const App: React.StatelessComponent<{
                 </Grid>
                 <Grid container>
                   <Grid item>
-                    <Button color="secondary" disabled={!props.computeStore.isRunning || props.runStore.isRunning} onClick={() => props.runStore.run(1000)}>
+                    <Button
+                      color="secondary"
+                      disabled={!props.computeStore.isRunning || props.runStore.isRunning}
+                      onClick={() => props.runStore.run(1000)}
+                    >
                       <FlightTakeoffIcon /> Start
                     </Button>
                   </Grid>
@@ -103,7 +120,17 @@ const App: React.StatelessComponent<{
             <Grid item xs={6} md={4}>
               <Paper style={{ height: `${controlRowHeight}px` }}>
                 <Typography variant="headline" component="h3">
-                  Accumulator.
+                  Accumulator.{" "}
+                  {props.computeStore.hasOverOrUnderflowed && (
+                    <Chip
+                      avatar={
+                        <Avatar>
+                          <ErrorOutlineIcon />
+                        </Avatar>
+                      }
+                      label={props.computeStore.hasOverOrUnderflowed}
+                    />
+                  )}
                 </Typography>
                 <Typography variant="body1" component="p">
                   {("00" + props.computeStore.accumulator).slice(-3)}
