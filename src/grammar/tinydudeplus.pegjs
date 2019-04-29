@@ -60,7 +60,7 @@ boolean =
 type =
 	"num" / "bool"
 binary_operator = 
-	">" / "<" / "==" / "+" / "-" / "*" / "/" / "%"
+	"==" / "and" / "or" / ">" / "<" / "+" / "-" / "*" / "/" / "%"
 unary_operator  =
 	"not"
 identifier =

@@ -168,3 +168,40 @@ it("invokes evaluator for == operator", () => {
   expect(evaluateBinaryEquals).toHaveBeenCalledWith(compiler, binary, evaluate);
 });
 
+it("invokes evaluator for 'and' operator", () => {
+  const evaluate = jest.fn();
+  const compiler = new TinyDudePlusCompiler();
+  const binary: AST.BinaryExpression = {
+    node: "binary",
+    operator: "and",
+    left: {
+      node: "identifier",
+      value: "b"
+    },
+    right: {
+      node: "identifier",
+      value: "b2"
+    }
+  };
+
+  evaluateBinary(compiler, binary, evaluate);
+});
+
+it("invokes evaluator for 'or' operator", () => {
+  const evaluate = jest.fn();
+  const compiler = new TinyDudePlusCompiler();
+  const binary: AST.BinaryExpression = {
+    node: "binary",
+    operator: "or",
+    left: {
+      node: "identifier",
+      value: "b"
+    },
+    right: {
+      node: "identifier",
+      value: "b2"
+    }
+  };
+
+  evaluateBinary(compiler, binary, evaluate);
+});
