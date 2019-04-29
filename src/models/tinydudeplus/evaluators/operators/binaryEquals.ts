@@ -17,7 +17,7 @@ export function evaluateBinaryEquals(
   evaluate(binary.right);
 
   subtractAccumulator(compiler, registerLeft);
-  notAccumulator(compiler);
-
   compiler.freeRegister(registerLeft);
+
+  notAccumulator(compiler);
 }
