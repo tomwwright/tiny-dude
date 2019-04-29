@@ -4,6 +4,7 @@ import { AST } from "../types";
 import { evaluateBinaryAdd } from "./operators/binaryAdd";
 import { evaluateBinarySubtract } from "./operators/binarySubtract";
 import { evaluateBinaryGreaterThan } from "./operators/binaryGreaterThan";
+import { evaluateBinaryEquals } from "./operators/binaryEquals";
 
 export function evaluateBinary(
   compiler: TinyDudePlusCompiler,
@@ -16,6 +17,9 @@ export function evaluateBinary(
       break;
     case "-":
       evaluateBinarySubtract(compiler, binary, evaluate);
+      break;
+    case "==":
+      evaluateBinaryEquals(compiler, binary, evaluate);
       break;
     case ">":
       evaluateBinaryGreaterThan(compiler, binary, evaluate);
