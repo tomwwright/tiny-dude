@@ -79,12 +79,18 @@ it("compiles simple if statement", () => {
     },
     {
       line: 8,
+      label: null,
+      instruction: "HLT",
+      argument: undefined
+    },
+    {
+      line: 9,
       label: "CONST1",
       instruction: Mnemonic.DAT,
       argument: "1"
     },
     {
-      line: 9,
+      line: 10,
       label: "CONST3",
       instruction: Mnemonic.DAT,
       argument: "3"
@@ -176,12 +182,18 @@ it("compiles simple loop statement", () => {
     },
     {
       line: 9,
+      label: null,
+      instruction: "HLT",
+      argument: undefined
+    },
+    {
+      line: 10,
       label: "CONST1",
       instruction: Mnemonic.DAT,
       argument: "1"
     },
     {
-      line: 10,
+      line: 11,
       label: "CONST3",
       instruction: Mnemonic.DAT,
       argument: "3"

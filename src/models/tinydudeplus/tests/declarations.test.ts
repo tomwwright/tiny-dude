@@ -23,6 +23,12 @@ describe("compiles declaring", () => {
     expect(assembly).toEqual([
       {
         line: 1,
+        label: null,
+        instruction: "HLT",
+        argument: undefined
+      },
+      {
+        line: 2,
         label: "VAR1",
         instruction: Mnemonic.DAT,
         argument: "0"
@@ -52,6 +58,12 @@ describe("compiles declaring", () => {
     expect(assembly).toEqual([
       {
         line: 1,
+        label: null,
+        instruction: "HLT",
+        argument: undefined
+      },
+      {
+        line: 2,
         label: "VAR1",
         instruction: Mnemonic.DAT,
         argument: "0"
@@ -100,12 +112,18 @@ describe("compiles declaring", () => {
       },
       {
         line: 3,
+        label: null,
+        instruction: "HLT",
+        argument: undefined
+      },
+      {
+        line: 4,
         label: "CONST3",
         instruction: Mnemonic.DAT,
         argument: "3"
       },
       {
-        line: 4,
+        line: 5,
         label: "VAR1",
         instruction: Mnemonic.DAT,
         argument: "0"
@@ -154,12 +172,18 @@ describe("compiles declaring", () => {
       },
       {
         line: 3,
+        label: null,
+        instruction: "HLT",
+        argument: undefined
+      },
+      {
+        line: 4,
         label: "CONST1",
         instruction: Mnemonic.DAT,
         argument: "1"
       },
       {
-        line: 4,
+        line: 5,
         label: "VAR1",
         instruction: Mnemonic.DAT,
         argument: "0"
@@ -216,12 +240,18 @@ describe("compiles declaring", () => {
       },
       {
         line: 3,
+        label: null,
+        instruction: "HLT",
+        argument: undefined
+      },
+      {
+        line: 4,
         label: "VAR1",
         instruction: Mnemonic.DAT,
         argument: "0"
       },
       {
-        line: 4,
+        line: 5,
         label: "VAR2",
         instruction: Mnemonic.DAT,
         argument: "0"
@@ -297,24 +327,30 @@ describe("compiles declaring", () => {
       },
       {
         line: 6,
+        label: null,
+        instruction: "HLT",
+        argument: undefined
+      },
+      {
+        line: 7,
         label: "CONST3",
         instruction: Mnemonic.DAT,
         argument: "3"
       },
       {
-        line: 7,
+        line: 8,
         label: "CONST7",
         instruction: Mnemonic.DAT,
         argument: "7"
       },
       {
-        line: 8,
+        line: 9,
         label: "REG1",
         instruction: Mnemonic.DAT,
         argument: "0"
       },
       {
-        line: 9,
+        line: 10,
         label: "VAR1",
         instruction: Mnemonic.DAT,
         argument: "0"

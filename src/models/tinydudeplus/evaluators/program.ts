@@ -2,6 +2,7 @@ import { TinyDudePlusCompiler } from "../../tinydudepluscompiler";
 import { AST } from "../types";
 
 import { compileDats } from "../routines/compileDats";
+import { Mnemonic } from "../../assemblycompiler";
 
 export function evaluateProgram(
   compiler: TinyDudePlusCompiler,
@@ -11,6 +12,10 @@ export function evaluateProgram(
   for (const statement of program.statements) {
     evaluate(statement);
   }
+
+  compiler.addAssemblyStatement({
+    instruction: Mnemonic.HLT
+  });
 
   compileDats(compiler);
 }

@@ -44,3 +44,9 @@ it("evaluates each statement", () => {
 it("compiles DATs", () => {
   expect(compileDats).toHaveBeenCalled();
 });
+
+it("includes a HLT instruction", () => {
+  expect(compiler.addAssemblyStatement).toHaveBeenCalledWith({
+    instruction: "HLT"
+  });
+});

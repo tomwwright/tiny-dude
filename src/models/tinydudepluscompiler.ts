@@ -16,7 +16,7 @@ export class TinyDudePlusCompiler {
   constructor() {}
 
   private get symbolsCount() {
-    return Object.keys(this.symbols).length;
+    return Object.values(this.symbols).filter(symbol => symbol.label.startsWith("VAR")).length;
   }
 
   getSymbol(symbol: string) {
@@ -120,10 +120,6 @@ export class TinyDudePlusCompiler {
 
   static compileAST(compiler: TinyDudePlusCompiler, ast: AST.Program) {
     evaluate(compiler, ast);
-
-    if (compiler.assembly.length > 100) {
-      compiler.errors.push(`compiled to ${compiler.assembly.length} opcodes!`);
-    }
 
     return {
       assembly: compiler.assembly,
