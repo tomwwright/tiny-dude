@@ -1,7 +1,16 @@
+{
+  function withLocation(o) {
+    return {
+      ...o,
+      location: location()
+    }
+  }
+}
+
 program	=
     statements:statement+
 	
-    { return { node: "program", statements } }
+    { return withLocation({ node: "program", statements }) }
 
 statement =
 	_ block:block _ { return block; }
@@ -11,33 +20,33 @@ statement =
 out = 
   "out" _ expression:expression
 
-    { return { node: "out", expression }; }
+    { return withLocation({ node: "out", expression }); }
     
 block =
 	block: ("if" / "loop") _ expression:expression _ "{" _ statements:statement* _ "}"
     
-    { return { node: block, expression, statements }; }  
+    { return withLocation({ node: block, expression, statements }); }  
     
 declaration =
 	type:type _ declaration:(assignment / identifier) _
 	
-    { return { node: "declaration", type, declaration }; }
+    { return withLocation({ node: "declaration", type, declaration }); }
     
 assignment =
 	identifier:identifier _ "=" _ expression:expression
 	
-    { return { node: "assignment", identifier, expression }; }
+    { return withLocation({ node: "assignment", identifier, expression }); }
     
 expression =
 	"(" _ expression:expression _ ")"
-    	{ return { node: 'brackets', expression }; }
+    	{ return withLocation({ node: 'brackets', expression }); }
     /
     operator:unary_operator _ expression:expression
-    	{ return { node: "unary", operator, expression }; }
+    	{ return withLocation({ node: "unary", operator, expression }); }
     /
     term:term _ rest:expression_rest?
         {
-            if(rest) return { node: "binary", operator: rest.operator, left: term, right: rest.expression };
+            if(rest) return withLocation({ node: "binary", operator: rest.operator, left: term, right: rest.expression });
             else return term;
         }
 
@@ -54,7 +63,7 @@ term =
 boolean =
 	value:("true" / "false")
 	
-    { return { node: "boolean", value } }
+    { return withLocation({ node: "boolean", value }) }
 
     
 type =
@@ -66,11 +75,11 @@ unary_operator  =
 identifier =
 	chars:([a-zA-Z][a-zA-Z0-9]*)
 	
-    { return { type: "identifier", value: chars.join("") } }
+    { return withLocation({ type: "identifier", value: chars.join("") }) }
 
 number =
 	[0-9]+ 
-	{ return { type: "number", value: parseInt(text(), 10) } }
+	{ return withLocation({ type: "number", value: parseInt(text(), 10) }) }
     
 _ "whitespace" =
 	[ \t\n\r]*
