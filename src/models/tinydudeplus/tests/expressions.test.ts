@@ -216,71 +216,77 @@ describe("logic expressions", () => {
       {
         line: 7,
         label: null,
-        instruction: Mnemonic.LDA,
-        argument: "CONST0"
-      },
-      {
-        line: 8,
-        label: null,
         instruction: Mnemonic.BRP,
         argument: "FLOW1"
       },
       {
-        line: 9,
+        line: 8,
         label: null,
         instruction: Mnemonic.LDA,
-        argument: "CONST1"
+        argument: "CONST0"
+      },
+      {
+        line: 9,
+        label: null,
+        instruction: Mnemonic.BRA,
+        argument: "FLOW2"
       },
       {
         line: 10,
         label: "FLOW1",
+        instruction: Mnemonic.LDA,
+        argument: "CONST1"
+      },
+      {
+        line: 11,
+        label: "FLOW2",
         instruction: Mnemonic.STA,
         argument: "VAR2"
       },
       {
-        line: 11,
+        line: 12,
         label: null,
         instruction: Mnemonic.HLT,
         argument: undefined
       },
       {
-        line: 12,
+        line: 13,
         label: "CONST0",
         instruction: Mnemonic.DAT,
         argument: "0"
       },
       {
-        line: 13,
+        line: 14,
         label: "CONST1",
         instruction: Mnemonic.DAT,
         argument: "1"
       },
       {
-        line: 14,
+        line: 15,
         label: "CONST3",
         instruction: Mnemonic.DAT,
         argument: "3"
       },
       {
-        line: 15,
+        line: 16,
         label: "CONST5",
         instruction: Mnemonic.DAT,
         argument: "5"
       },
       {
-        line: 16,
+        line: 17,
         label: "REG1",
         instruction: Mnemonic.DAT,
         argument: "0"
       },
       {
-        line: 17,
+        line: 18,
         label: "VAR1",
         instruction: Mnemonic.DAT,
         argument: "0"
       },
       {
-        line: 18,
+        line: 19,
         label: "VAR2",
         instruction: Mnemonic.DAT,
         argument: "0"
