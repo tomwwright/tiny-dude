@@ -1,4 +1,4 @@
-import { parse } from "../grammar/tinydudeplus";
+import * as TinyDudePlus from "../grammar/tinydudeplus";
 import { AssemblyStatement } from "./assemblycompiler";
 import { AST } from "./tinydudeplus/types";
 import { evaluate } from "./tinydudeplus/evaluate";
@@ -13,10 +13,14 @@ export class TinyDudePlusCompiler {
 
   private registers: { label: string; isFree: boolean }[] = [];
 
-  constructor() {}
-
   private get symbolsCount() {
     return Object.values(this.symbols).filter(symbol => symbol.label.startsWith("VAR")).length;
+  }
+
+  getAssemblySource() {
+    return this.assembly
+      .map(statement => `${statement.label || ""} ${statement.instruction.toString()} ${statement.argument || ""}`)
+      .join("\n");
   }
 
   getSymbol(symbol: string) {
@@ -122,7 +126,9 @@ export class TinyDudePlusCompiler {
     evaluate(compiler, ast);
 
     return {
+      ast: ast,
       assembly: compiler.assembly,
+      source: compiler.getAssemblySource(),
       errors: compiler.errors
     };
   }
@@ -130,7 +136,7 @@ export class TinyDudePlusCompiler {
   static compile(source: string) {
     const compiler = new TinyDudePlusCompiler();
 
-    const ast: AST.Program = parse(source) as AST.Program;
+    const ast: AST.Program = TinyDudePlus.parse(source) as AST.Program;
 
     return TinyDudePlusCompiler.compileAST(compiler, ast);
   }

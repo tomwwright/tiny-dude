@@ -7,10 +7,12 @@ import ComputeStore from "./stores/compute";
 import AssemblyStore from "./stores/assembly";
 import RunStore from "./stores/run";
 import UiStore from "./stores/ui";
+import TinyDudePlusStore from "./stores/plus";
 
 import Root from "./containers/root";
 
 const computeStore = new ComputeStore(100);
+const plusStore = new TinyDudePlusStore();
 const assemblyStore = new AssemblyStore();
 const runStore = new RunStore(computeStore);
 const uiStore = new UiStore();
@@ -20,7 +22,8 @@ const uiStore = new UiStore();
   compute: computeStore,
   assembly: assemblyStore,
   run: runStore,
-  ui: uiStore
+  ui: uiStore,
+  plus: plusStore
 };
 
 const exampleCode =
@@ -36,10 +39,24 @@ COUNT DAT 5 \n\
 ONE   DAT 1 \n\n\
 // click the ? for Code Help!";
 
+const examplePlusCode = "num count = 5; \n\n\
+loop count >= 0 {\n\
+  out count; \n\
+  count = count - 1; \n\
+} \n";
+
 assemblyStore.compile(exampleCode);
 
+plusStore.compile(examplePlusCode);
+
 ReactDOM.render(
-  <Provider computeStore={computeStore} assemblyStore={assemblyStore} runStore={runStore} uiStore={uiStore}>
+  <Provider
+    computeStore={computeStore}
+    assemblyStore={assemblyStore}
+    runStore={runStore}
+    uiStore={uiStore}
+    plusStore={plusStore}
+  >
     <Root />
   </Provider>,
   document.getElementById("root")

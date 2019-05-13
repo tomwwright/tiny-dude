@@ -16,6 +16,7 @@ import { Welcome } from "../components/welcome";
 import { CodeHelpModal } from "../components/codehelpmodal";
 import { ControlsHelpModal } from "../components/controlshelpmodal";
 import AssemblyEditor from "./assemblyeditor";
+import TinyDudePlusEditor from "./tinydudepluseditor";
 import { Footer } from "../components/footer";
 import ComputeStore from "../stores/compute";
 import AssemblyStore from "../stores/assembly";
@@ -154,6 +155,11 @@ const App: React.StatelessComponent<{
               </Paper>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item sm={12} md={4}>
+          <Paper>
+            <TinyDudePlusEditor />
+          </Paper>
         </Grid>
       </Grid>
       <div style={{ height: "70px" }} />
