@@ -159,7 +159,7 @@ describe("logic expressions", () => {
             },
             expression: {
               node: "binary",
-              operator: ">",
+              operator: ">=",
               left: {
                 node: "identifier",
                 value: "input"

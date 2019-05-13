@@ -1,24 +1,24 @@
 import { mocked } from "ts-jest/utils";
 import { TinyDudePlusCompiler } from "../../../tinydudepluscompiler";
 import { AST } from "../../types";
-import { evaluateBinaryGreaterThan } from "./binaryGreaterThan";
+import { evaluateBinaryGreaterThanEquals } from "./binaryGreaterThanEquals";
 
 import { loadAccumulatorConstant } from "../../routines/loadAccumulator";
 import { storeAccumulator } from "../../routines/storeAccumulator";
 import { subtractAccumulator } from "../../routines/subtractAccumulator";
-import { branch, branchIfPositive } from "../../routines/branch";
+import { isPositiveAccumulator } from "../../routines/isPositiveAccumulator";
 
 jest.mock("../../../tinydudepluscompiler");
 jest.mock("../../routines/loadAccumulator");
 jest.mock("../../routines/storeAccumulator");
 jest.mock("../../routines/subtractAccumulator");
-jest.mock("../../routines/branch");
+jest.mock("../../routines/isPositiveAccumulator");
 
 const evaluate = jest.fn();
 const compiler = new TinyDudePlusCompiler();
 const binary: AST.BinaryExpression = {
   node: "binary",
-  operator: ">",
+  operator: ">=",
   left: {
     node: "identifier",
     value: "x"
@@ -32,8 +32,7 @@ const binary: AST.BinaryExpression = {
 beforeEach(() => {
   jest.clearAllMocks();
   mocked(compiler.allocateRegister).mockReturnValueOnce("REGX");
-  mocked(branchIfPositive).mockReturnValueOnce("FALSE_CASE");
-  evaluateBinaryGreaterThan(compiler, binary, evaluate);
+  evaluateBinaryGreaterThanEquals(compiler, binary, evaluate);
 });
 
 it("evaluates both sides", () => {
@@ -52,12 +51,6 @@ it("stores and compares using the register", () => {
   expect(subtractAccumulator).toHaveBeenCalledWith(compiler, "REGX");
 });
 
-it("sets up a true and false case", () => {
-  expect(loadAccumulatorConstant).toHaveBeenCalledWith(compiler, 1);
-  expect(loadAccumulatorConstant).toHaveBeenCalledWith(compiler, 0);
-});
-
-it("sets up a conditional to jump", () => {
-  expect(branchIfPositive).toHaveBeenCalledTimes(1);
-  expect(compiler.setPendingFlowLabel).toHaveBeenCalledWith("FALSE_CASE");
+it("sets up branches using 'is positive routine' routine", () => {
+  expect(isPositiveAccumulator).toHaveBeenCalledTimes(1);
 });

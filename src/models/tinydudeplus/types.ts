@@ -68,7 +68,7 @@ export namespace AST {
   };
 
   export type Type = "num" | "bool";
-  type BinaryOperator = ">" | "<" | "==" | "and" | "or" | "+" | "-" | "*" | "/" | "%";
+  type BinaryOperator = ">=" | "<=" | "==" | "and" | "or" | "+" | "-" | "*" | "/" | "%";
   type UnaryOperator = "not";
 
   export type Term = IdentifierTerm | NumberTerm | BooleanTerm;

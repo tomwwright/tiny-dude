@@ -5,12 +5,12 @@ import { evaluateBinaryEquals } from "./binaryEquals";
 
 import { storeAccumulator } from "../../routines/storeAccumulator";
 import { subtractAccumulator } from "../../routines/subtractAccumulator";
-import { notAccumulator } from "../../routines/notAccumulator";
+import { isZeroAccumulator } from "../../routines/isZeroAccumulator";
 
 jest.mock("../../../tinydudepluscompiler");
 jest.mock("../../routines/storeAccumulator");
 jest.mock("../../routines/subtractAccumulator");
-jest.mock("../../routines/notAccumulator");
+jest.mock("../../routines/isZeroAccumulator");
 
 const evaluate = jest.fn();
 const compiler = new TinyDudePlusCompiler();
@@ -40,7 +40,7 @@ it("evaluates both sides", () => {
 });
 
 it("performs 'not' on the accumulator", () => {
-  expect(notAccumulator).toHaveBeenCalled();
+  expect(isZeroAccumulator).toHaveBeenCalled();
 });
 
 it("allocates and frees a register", () => {

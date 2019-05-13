@@ -1,12 +1,11 @@
 import { TinyDudePlusCompiler } from "../../../tinydudepluscompiler";
 import { AST } from "../../types";
 
-import { loadAccumulatorConstant } from "../../routines/loadAccumulator";
 import { storeAccumulator } from "../../routines/storeAccumulator";
 import { subtractAccumulator } from "../../routines/subtractAccumulator";
-import { branch, branchIfPositive } from "../../routines/branch";
+import { isPositiveAccumulator } from "../../routines/isPositiveAccumulator";
 
-export function evaluateBinaryGreaterThan(
+export function evaluateBinaryGreaterThanEquals(
   compiler: TinyDudePlusCompiler,
   binary: AST.BinaryExpression,
   evaluate: (node: AST.Node) => void
@@ -21,11 +20,5 @@ export function evaluateBinaryGreaterThan(
   subtractAccumulator(compiler, registerRight);
   compiler.freeRegister(registerRight);
 
-  // assume false
-  loadAccumulatorConstant(compiler, 0);
-
-  // if accumulator is >= 0, then left cannot be greater than right
-  const jumpPastTrueCase = branchIfPositive(compiler);
-  loadAccumulatorConstant(compiler, 1);
-  compiler.setPendingFlowLabel(jumpPastTrueCase);
+  isPositiveAccumulator(compiler);
 }

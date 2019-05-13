@@ -4,14 +4,18 @@ import { AST } from "../types";
 import { evaluateBinary } from "./binary";
 import { evaluateBinaryAdd } from "./operators/binaryAdd";
 import { evaluateBinarySubtract } from "./operators/binarySubtract";
-import { evaluateBinaryGreaterThan } from "./operators/binaryGreaterThan";
+import { evaluateBinaryGreaterThanEquals } from "./operators/binaryGreaterThanEquals";
 import { evaluateBinaryEquals } from "./operators/binaryEquals";
+import { evaluateBinaryAnd } from "./operators/binaryAnd";
+import { evaluateBinaryOr } from "./operators/binaryOr";
 
 jest.mock("../../tinydudepluscompiler");
 jest.mock("./operators/binaryAdd");
 jest.mock("./operators/binarySubtract");
-jest.mock("./operators/binaryGreaterThan");
+jest.mock("./operators/binaryGreaterThanEquals");
 jest.mock("./operators/binaryEquals");
+jest.mock("./operators/binaryAnd");
+jest.mock("./operators/binaryOr");
 
 it("invokes evaluator for + operator", () => {
   const evaluate = jest.fn();
@@ -98,7 +102,7 @@ it("invokes evaluator for > operator", () => {
   const compiler = new TinyDudePlusCompiler();
   const binary: AST.BinaryExpression = {
     node: "binary",
-    operator: ">",
+    operator: ">=",
     left: {
       node: "identifier",
       value: "x"
@@ -111,7 +115,7 @@ it("invokes evaluator for > operator", () => {
 
   evaluateBinary(compiler, binary, evaluate);
 
-  expect(evaluateBinaryGreaterThan).toHaveBeenCalledWith(compiler, binary, evaluate);
+  expect(evaluateBinaryGreaterThanEquals).toHaveBeenCalledWith(compiler, binary, evaluate);
 });
 
 it("switches expression and invokes evaluator for < operator", () => {
@@ -119,7 +123,7 @@ it("switches expression and invokes evaluator for < operator", () => {
   const compiler = new TinyDudePlusCompiler();
   const binary: AST.BinaryExpression = {
     node: "binary",
-    operator: "<",
+    operator: "<=",
     right: {
       node: "identifier",
       value: "x"
@@ -131,7 +135,7 @@ it("switches expression and invokes evaluator for < operator", () => {
   };
   const switchedBinary: AST.BinaryExpression = {
     node: "binary",
-    operator: ">",
+    operator: ">=",
     left: {
       node: "identifier",
       value: "x"
@@ -144,7 +148,7 @@ it("switches expression and invokes evaluator for < operator", () => {
 
   evaluateBinary(compiler, binary, evaluate);
 
-  expect(evaluateBinaryGreaterThan).toHaveBeenCalledWith(compiler, switchedBinary, evaluate);
+  expect(evaluateBinaryGreaterThanEquals).toHaveBeenCalledWith(compiler, switchedBinary, evaluate);
 });
 
 it("invokes evaluator for == operator", () => {
@@ -185,6 +189,8 @@ it("invokes evaluator for 'and' operator", () => {
   };
 
   evaluateBinary(compiler, binary, evaluate);
+
+  expect(evaluateBinaryAnd).toHaveBeenCalledWith(compiler, binary, evaluate);
 });
 
 it("invokes evaluator for 'or' operator", () => {
@@ -204,4 +210,6 @@ it("invokes evaluator for 'or' operator", () => {
   };
 
   evaluateBinary(compiler, binary, evaluate);
+
+  expect(evaluateBinaryOr).toHaveBeenCalledWith(compiler, binary, evaluate);
 });

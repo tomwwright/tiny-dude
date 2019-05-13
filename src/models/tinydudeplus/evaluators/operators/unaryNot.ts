@@ -1,7 +1,7 @@
 import { TinyDudePlusCompiler } from "../../../tinydudepluscompiler";
 import { AST } from "../../types";
 
-import { notAccumulator } from "../../routines/notAccumulator";
+import { isZeroAccumulator } from "../../routines/isZeroAccumulator";
 
 export function evaluateUnaryNot(
   compiler: TinyDudePlusCompiler,
@@ -9,5 +9,5 @@ export function evaluateUnaryNot(
   evaluate: (node: AST.Node) => void
 ) {
   evaluate(node.expression);
-  notAccumulator(compiler);
+  isZeroAccumulator(compiler);
 }

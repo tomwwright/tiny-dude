@@ -3,7 +3,7 @@ import { AST } from "../../types";
 
 import { storeAccumulator } from "../../routines/storeAccumulator";
 import { subtractAccumulator } from "../../routines/subtractAccumulator";
-import { notAccumulator } from "../../routines/notAccumulator";
+import { isZeroAccumulator } from "../../routines/isZeroAccumulator";
 
 export function evaluateBinaryEquals(
   compiler: TinyDudePlusCompiler,
@@ -19,5 +19,5 @@ export function evaluateBinaryEquals(
   subtractAccumulator(compiler, registerLeft);
   compiler.freeRegister(registerLeft);
 
-  notAccumulator(compiler);
+  isZeroAccumulator(compiler);
 }
