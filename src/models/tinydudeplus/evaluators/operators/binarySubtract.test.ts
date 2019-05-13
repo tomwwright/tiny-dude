@@ -32,8 +32,8 @@ beforeEach(() => {
 
 it("evaluates both sides", () => {
   expect(evaluate).toHaveBeenCalledTimes(2);
-  expect(evaluate).toHaveBeenNthCalledWith(1, binary.left);
-  expect(evaluate).toHaveBeenNthCalledWith(2, binary.right);
+  expect(evaluate).toHaveBeenNthCalledWith(1, binary.right);
+  expect(evaluate).toHaveBeenNthCalledWith(2, binary.left);
 });
 
 it("allocates and frees a register", () => {

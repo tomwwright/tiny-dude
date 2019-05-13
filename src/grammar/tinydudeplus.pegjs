@@ -75,11 +75,11 @@ unary_operator  =
 identifier =
 	chars:([a-zA-Z][a-zA-Z0-9]*)
 	
-    { return withLocation({ type: "identifier", value: chars.join("") }) }
+    { return withLocation({ node: "identifier", value: chars.flat().join("")}) }
 
 number =
 	[0-9]+ 
-	{ return withLocation({ type: "number", value: parseInt(text(), 10) }) }
+	{ return withLocation({ node: "number", value: parseInt(text(), 10) }) }
     
 _ "whitespace" =
 	[ \t\n\r]*

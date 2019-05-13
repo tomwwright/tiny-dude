@@ -9,13 +9,13 @@ export function evaluateBinarySubtract(
   binary: AST.BinaryExpression,
   evaluate: (node: AST.Node) => void
 ) {
-  const registerLeft = compiler.allocateRegister();
-  evaluate(binary.left);
-  storeAccumulator(compiler, registerLeft);
-
+  const registerRight = compiler.allocateRegister();
   evaluate(binary.right);
+  storeAccumulator(compiler, registerRight);
 
-  subtractAccumulator(compiler, registerLeft);
+  evaluate(binary.left);
 
-  compiler.freeRegister(registerLeft);
+  subtractAccumulator(compiler, registerRight);
+
+  compiler.freeRegister(registerRight);
 }

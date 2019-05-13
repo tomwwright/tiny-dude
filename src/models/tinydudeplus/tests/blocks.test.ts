@@ -44,53 +44,47 @@ it("compiles simple if statement", () => {
     {
       line: 2,
       label: null,
-      instruction: Mnemonic.SUB,
-      argument: "CONST1"
-    },
-    {
-      line: 3,
-      label: null,
-      instruction: Mnemonic.BRP,
+      instruction: Mnemonic.BRZ,
       argument: "FLOW1"
     },
     {
-      line: 4,
+      line: 3,
       label: null,
       instruction: Mnemonic.LDA,
       argument: "CONST1"
     },
     {
-      line: 5,
+      line: 4,
       label: null,
       instruction: Mnemonic.OUT,
       argument: undefined
     },
     {
-      line: 6,
+      line: 5,
       label: "FLOW1",
       instruction: Mnemonic.LDA,
       argument: "CONST3"
     },
     {
-      line: 7,
+      line: 6,
       label: null,
       instruction: Mnemonic.OUT,
       argument: undefined
     },
     {
-      line: 8,
+      line: 7,
       label: null,
       instruction: "HLT",
       argument: undefined
     },
     {
-      line: 9,
+      line: 8,
       label: "CONST1",
       instruction: Mnemonic.DAT,
       argument: "1"
     },
     {
-      line: 10,
+      line: 9,
       label: "CONST3",
       instruction: Mnemonic.DAT,
       argument: "3"
@@ -141,59 +135,53 @@ it("compiles simple loop statement", () => {
     {
       line: 2,
       label: null,
-      instruction: Mnemonic.SUB,
-      argument: "CONST1"
-    },
-    {
-      line: 3,
-      label: null,
-      instruction: Mnemonic.BRP,
+      instruction: Mnemonic.BRZ,
       argument: "FLOW2"
     },
     {
-      line: 4,
+      line: 3,
       label: null,
       instruction: Mnemonic.LDA,
       argument: "CONST1"
     },
     {
-      line: 5,
+      line: 4,
       label: null,
       instruction: Mnemonic.OUT,
       argument: undefined
     },
     {
-      line: 6,
+      line: 5,
       label: null,
       instruction: Mnemonic.BRA,
       argument: "FLOW1"
     },
     {
-      line: 7,
+      line: 6,
       label: "FLOW2",
       instruction: Mnemonic.LDA,
       argument: "CONST3"
     },
     {
-      line: 8,
+      line: 7,
       label: null,
       instruction: Mnemonic.OUT,
       argument: undefined
     },
     {
-      line: 9,
+      line: 8,
       label: null,
       instruction: "HLT",
       argument: undefined
     },
     {
-      line: 10,
+      line: 9,
       label: "CONST1",
       instruction: Mnemonic.DAT,
       argument: "1"
     },
     {
-      line: 11,
+      line: 10,
       label: "CONST3",
       instruction: Mnemonic.DAT,
       argument: "3"
