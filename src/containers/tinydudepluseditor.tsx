@@ -24,21 +24,21 @@ const PlusEditor: React.StatelessComponent<WithStyles & PlusEditorProps> = ({ pl
   <div>
     <CodeEditor
       source={plusStore.source}
-      hasError={plusStore.compiler.errors.length > 0}
+      hasError={plusStore.compilation.errors.length > 0}
       onChange={code => plusStore.compile(code)}
     />
-    {plusStore.compiler.errors.length == 0 ? (
+    {plusStore.compilation.errors.length == 0 ? (
       <Grid container style={{ marginTop: 0 }} alignItems="center" justify="space-between">
         <Grid item>
           <ListItem>
             <ListItemIcon>
               <CheckIcon />
             </ListItemIcon>
-            <ListItemText primary="Compiled!" secondary={`${plusStore.compiler.ast.statements.length} statements`} />
+            <ListItemText primary="Compiled!" secondary={`${plusStore.compilation.ast.statements.length} statements`} />
           </ListItem>
         </Grid>
         <Grid item>
-          <Button color="primary" onClick={() => assemblyStore.compile(plusStore.compiler.source)}>
+          <Button color="primary" onClick={() => assemblyStore.compile(plusStore.compilation.source)}>
             <FileDownloadIcon /> Load
           </Button>
         </Grid>
@@ -46,7 +46,7 @@ const PlusEditor: React.StatelessComponent<WithStyles & PlusEditorProps> = ({ pl
     ) : (
       <Scrollable height={200}>
         <List dense={true}>
-          {plusStore.compiler.errors.map((error, i) => (
+          {plusStore.compilation.errors.map((error, i) => (
             <ListItem key={i}>
               <ListItemIcon>
                 <ErrorIcon className={classes.errorText} />

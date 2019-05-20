@@ -5,7 +5,7 @@ import { TinyDudePlusCompiler } from "../models/tinydudepluscompiler";
 export default class TinyDudePlusStore {
   @observable source: string = "";
 
-  @computed get compiler() {
+  @computed get compilation() {
     return TinyDudePlusCompiler.compile(this.source);
   }
 
