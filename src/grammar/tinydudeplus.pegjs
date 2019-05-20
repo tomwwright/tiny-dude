@@ -56,7 +56,7 @@ expression_rest =
     { return { operator, expression }; }
     
 term =
-	_ term:(identifier / boolean / number) _
+	_ term:(boolean / number / identifier) _
 	
     { return term; }
 
