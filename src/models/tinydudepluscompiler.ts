@@ -18,8 +18,17 @@ export class TinyDudePlusCompiler {
   }
 
   getAssemblySource() {
+    const longestLabelLength = this.assembly
+      .filter(statement => statement.label != null)
+      .map(statement => statement.label.length)
+      .sort((a, b) => b - a)[0];
     return this.assembly
-      .map(statement => `${statement.label || ""} ${statement.instruction.toString()} ${statement.argument || ""}`)
+      .map(
+        statement =>
+          `${(statement.label || "").padEnd(
+            longestLabelLength
+          )} ${statement.instruction.toString()} ${statement.argument || ""}`
+      )
       .join("\n");
   }
 
