@@ -136,7 +136,21 @@ export class TinyDudePlusCompiler {
   static compile(source: string) {
     const compiler = new TinyDudePlusCompiler();
 
-    const ast: AST.Program = TinyDudePlus.parse(source) as AST.Program;
+    let ast: AST.Program;
+
+    try {
+      ast = TinyDudePlus.parse(source) as AST.Program;
+    } catch (e) {
+      if (e.name == "SyntaxError") {
+        return {
+          errors: [("Syntax Error: " + e.message) as string],
+          ast: null,
+          assembly: null,
+          source: null
+        };
+      }
+      throw e;
+    }
 
     return TinyDudePlusCompiler.compileAST(compiler, ast);
   }
