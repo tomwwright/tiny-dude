@@ -4,7 +4,7 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import theme from "../theme";
 
-import App from "./app";
+import { App } from "./app";
 
 const Root: React.StatelessComponent<{}> = () => (
   <MuiThemeProvider theme={theme}>
