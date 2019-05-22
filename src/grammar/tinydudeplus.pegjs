@@ -51,7 +51,7 @@ expression =
         }
 
 expression_rest = 
-	operator:binary_operator expression:expression
+	operator:binary_operator _ expression:expression
     
     { return { operator, expression }; }
     
