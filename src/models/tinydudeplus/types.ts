@@ -9,39 +9,41 @@ export namespace AST {
     column: number;
   };
 
-  export type Node = {
+  export type Node = Program | Statement | Expression;
+
+  export type BaseNode = {
     node: string;
     location?: {
       start: SourceLocation;
       end: SourceLocation;
-    };
+    } & (Program | Statement | Expression);
   };
 
-  export type Program = Node & {
+  export type Program = BaseNode & {
     node: "program";
     statements: Statement[];
   };
 
   type Statement = Block | Out | Declaration | Assignment;
 
-  export type Out = Node & {
+  export type Out = BaseNode & {
     node: "out";
     expression: Expression;
   };
 
-  export type Block = Node & {
+  export type Block = BaseNode & {
     node: "if" | "loop";
     expression: Expression;
     statements: Statement[];
   };
 
-  export type Declaration = Node & {
+  export type Declaration = BaseNode & {
     node: "declaration";
     type: Type;
     declaration: IdentifierTerm | Assignment;
   };
 
-  export type Assignment = Node & {
+  export type Assignment = BaseNode & {
     node: "assignment";
     identifier: IdentifierTerm;
     expression: Expression;
@@ -49,18 +51,18 @@ export namespace AST {
 
   export type Expression = Term | BracketsExpression | UnaryExpression | BinaryExpression;
 
-  export type BracketsExpression = Node & {
+  export type BracketsExpression = BaseNode & {
     node: "brackets";
     expression: Expression;
   };
 
-  export type UnaryExpression = Node & {
+  export type UnaryExpression = BaseNode & {
     node: "unary";
     operator: UnaryOperator;
     expression: Expression;
   };
 
-  export type BinaryExpression = Node & {
+  export type BinaryExpression = BaseNode & {
     node: "binary";
     operator: BinaryOperator;
     left: Expression;
@@ -73,17 +75,17 @@ export namespace AST {
 
   export type Term = IdentifierTerm | NumberTerm | BooleanTerm;
 
-  export type IdentifierTerm = Node & {
+  export type IdentifierTerm = BaseNode & {
     node: "identifier";
     value: string;
   };
 
-  export type NumberTerm = Node & {
+  export type NumberTerm = BaseNode & {
     node: "number";
     value: number;
   };
 
-  export type BooleanTerm = Node & {
+  export type BooleanTerm = BaseNode & {
     node: "boolean";
     value: boolean;
   };
