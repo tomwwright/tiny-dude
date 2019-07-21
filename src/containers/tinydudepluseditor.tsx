@@ -53,7 +53,7 @@ const PlusEditor: React.StatelessComponent<WithStyles & PlusEditorProps> = ({ pl
             <ListItemIcon>
               <CheckIcon />
             </ListItemIcon>
-            <ListItemText primary="Compiled!" secondary={`${plusStore.compilation.ast.statements.length} statements`} />
+            <ListItemText primary="Compiled!" secondary={`${plusStore.compiledProgramStatementsLength} statements`} />
           </ListItem>
         </Grid>
         <Grid item>
