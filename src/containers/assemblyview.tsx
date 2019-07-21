@@ -1,6 +1,17 @@
 import * as React from "react";
 
-import { Paper, Typography, Grid, Chip, Avatar, IconButton, Button, Tooltip } from "@material-ui/core";
+import {
+  Paper,
+  Typography,
+  Grid,
+  Chip,
+  Avatar,
+  IconButton,
+  Button,
+  Tooltip,
+  FormControlLabel,
+  Switch
+} from "@material-ui/core";
 import {
   FlightTakeoff as FlightTakeoffIcon,
   FlightLand as FlightLandIcon,
@@ -20,6 +31,7 @@ import ComputeStore from "../stores/compute";
 import AssemblyStore from "../stores/assembly";
 import RunStore from "../stores/run";
 import UiStore from "../stores/ui";
+import PlusEditor from "./tinydudepluseditor";
 
 const controlRowHeight = 95;
 
@@ -34,6 +46,16 @@ const AssemblyViewComponent: React.StatelessComponent<{
       <Grid container>
         <Grid item xs={12}>
           <Welcome emptyProp="" />
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <FormControlLabel
+              control={
+                <Switch checked={props.uiStore.isEditorInPlusMode} onChange={e => props.uiStore.setEditorPlusMode(e)} />
+              }
+              label="Code in TinyDude+"
+            />
+          </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper>
@@ -52,7 +74,7 @@ const AssemblyViewComponent: React.StatelessComponent<{
                 <CodeHelpModal />
               </Grid>
             </Grid>
-            <AssemblyEditor />
+            {props.uiStore.isEditorInPlusMode ? <PlusEditor /> : <AssemblyEditor />}
           </Paper>
         </Grid>
       </Grid>
