@@ -6,6 +6,8 @@ import { Collapse, ListItem, ListItemText, ListItemIcon, List } from "@material-
 type NestedListProps = {
   icon: () => React.ReactElement;
   text: string;
+  onHover?: () => void;
+  onUnhover?: () => void;
 };
 
 type NestedListState = {
@@ -14,7 +16,7 @@ type NestedListState = {
 
 export class NestedList extends React.Component<NestedListProps, NestedListState> {
   state = {
-    open: true
+    open: false
   };
 
   handleClick = () => {
@@ -24,7 +26,12 @@ export class NestedList extends React.Component<NestedListProps, NestedListState
   render() {
     return (
       <div>
-        <ListItem button onClick={this.handleClick}>
+        <ListItem
+          button
+          onClick={this.handleClick}
+          onMouseEnter={() => this.props.onHover()}
+          onMouseLeave={() => this.props.onUnhover()}
+        >
           <ListItemIcon>{this.props.icon()}</ListItemIcon>
           <ListItemText inset primary={this.props.text} />
           {this.state.open ? <ExpandMoreIcon /> : <ExpandLessIcon />}

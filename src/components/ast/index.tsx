@@ -9,22 +9,29 @@ import { NestedList } from "../nestedlist";
 
 type ASTNodeProps = {
   node: AST.Node;
+  onHover: (node: AST.Node) => void;
+  onUnhover: (node: AST.Node) => void;
 };
 
-export const ASTNode: React.StatelessComponent<ASTNodeProps> = ({ node }) => {
+export const ASTNode: React.StatelessComponent<ASTNodeProps> = ({ node, onHover, onUnhover }) => {
   const nodeChildren = children(node);
 
   if (nodeChildren.length > 0) {
     return (
-      <NestedList text={node.node} icon={() => <ASTNodeIcon node={node} />}>
-        {nodeChildren.map(child => (
-          <ASTNode node={child} />
+      <NestedList
+        text={node.node}
+        icon={() => <ASTNodeIcon node={node} />}
+        onHover={() => onHover(node)}
+        onUnhover={() => onUnhover(node)}
+      >
+        {nodeChildren.map((child, i) => (
+          <ASTNode key={i} node={child} onHover={onHover} onUnhover={onUnhover} />
         ))}
       </NestedList>
     );
   } else {
     return (
-      <ListItem>
+      <ListItem onMouseEnter={() => onHover(node)} onMouseLeave={() => onUnhover(node)}>
         <ListItemIcon>
           <ASTNodeIcon node={node} />
         </ListItemIcon>

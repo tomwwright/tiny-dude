@@ -23,7 +23,14 @@ const PlusViewComponent: React.StatelessComponent<PlusViewProps> = props => (
     <Grid item sm={12} md={4}>
       <Paper>
         {props.plusStore.compilation && props.plusStore.compilation.ast ? (
-          <ASTNode node={props.plusStore.compilation.ast} />
+          <ASTNode
+            node={props.plusStore.compilation.ast}
+            onUnhover={node => props.plusStore.clearHighlightedSource()}
+            onHover={node =>
+              node.location &&
+              props.plusStore.setHighlightedSource(node.location.start.offset, node.location.end.offset)
+            }
+          />
         ) : (
           <Typography variant="body1">No AST generated.</Typography>
         )}
