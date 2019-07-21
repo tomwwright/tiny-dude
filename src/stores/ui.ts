@@ -1,8 +1,9 @@
-import { observable, computed, action } from 'mobx';
+import { observable, computed, action } from "mobx";
 
 export default class UiStore {
   @observable isCodeHelpOpen: boolean = false;
   @observable isControlsHelpOpen: boolean = false;
+  @observable isEditorInPlusMode: boolean = false;
 
   @action
   openCodeHelp() {
@@ -22,5 +23,10 @@ export default class UiStore {
   @action
   closeControlsHelp() {
     this.isControlsHelpOpen = false;
+  }
+
+  @action
+  setEditorPlusMode(event: React.ChangeEvent<HTMLInputElement>) {
+    this.isEditorInPlusMode = event.target.checked;
   }
 }
