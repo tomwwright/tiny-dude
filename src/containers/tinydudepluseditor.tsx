@@ -8,6 +8,7 @@ import CodeEditor from "../components/codeeditor";
 import Scrollable from "../components/scrollable";
 import TinyDudePlusStore from "../stores/plus";
 import AssemblyStore from "../stores/assembly";
+import UiStore from "../stores/ui";
 
 const style = withStyles<string>((theme: Theme) => ({
   errorText: {
@@ -20,12 +21,30 @@ type PlusEditorProps = {
   assemblyStore?: AssemblyStore;
 };
 
+const colourKeywordsInSource = (source: string) =>
+  source.replace(/(loop|num|bool|if|out|true|false)/gi, '<span style="color: #6666FF">$1</span>');
+
+const highlightSource = (source: string, start: number, end: number) => {
+  return `${source.substring(0, start)}<span style="background-color: #DDDDDD">${source.substring(
+    start,
+    end
+  )}</span>${source.substring(end)}`;
+};
+
 const PlusEditor: React.StatelessComponent<WithStyles & PlusEditorProps> = ({ plusStore, assemblyStore, classes }) => (
   <div>
+    {plusStore.sourceHighlighting && ""}
     <CodeEditor
       source={plusStore.source}
       hasError={plusStore.compilation.errors.length > 0}
       onChange={code => plusStore.compile(code)}
+      highlight={code =>
+        colourKeywordsInSource(
+          plusStore.sourceHighlighting
+            ? highlightSource(code, plusStore.sourceHighlighting.start, plusStore.sourceHighlighting.end)
+            : code
+        )
+      }
     />
     {plusStore.compilation.errors.length == 0 ? (
       <Grid container style={{ marginTop: 0 }} alignItems="center" justify="space-between">
