@@ -14,7 +14,7 @@ const TinyDudeAppBar: React.StatelessComponent<TinyDudeAppBarProps> = props => (
       <Typography variant="headline" color="inherit" style={{ flex: 1 }}>
         Tiny Dude
       </Typography>
-      <Button target="about:blank" href={props.githubUrl} color="secondary">
+      <Button target="about:blank" href={props.githubUrl} style={{ color: "white" }}>
         <CodeIcon style={{ paddingRight: "10px" }} /> GitHub
       </Button>
     </Toolbar>
