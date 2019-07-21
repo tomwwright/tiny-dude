@@ -1,26 +1,24 @@
 import { observable, computed, action } from "mobx";
 
-import { compileAssembly, CompilerError } from "../models/assemblycompiler";
+import { compileAssembly, AssemblyCompiler } from "../models/assemblycompiler";
 
 export default class AssemblyStore {
   @observable source: string = "";
-  @observable program: number[] = [];
-  @observable compileErrors: CompilerError[] = [];
+  @observable compiled: AssemblyCompiler;
+
+  @observable highlightedStatements: number[] = [];
 
   @action
   compile(source: string): boolean {
     this.source = source;
-    this.program = [];
-    this.compileErrors = [];
 
-    const compilerOut = compileAssembly(source);
+    this.compiled = compileAssembly(source);
 
-    if (compilerOut.errors.length > 0) {
-      this.compileErrors = compilerOut.errors;
-      return false;
-    } else {
-      this.program = compilerOut.program;
-      return true;
-    }
+    return this.compiled.errors.length > 0;
+  }
+
+  @action
+  highlight(statementIndices: number[]) {
+    this.highlightedStatements = statementIndices;
   }
 }

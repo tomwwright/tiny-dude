@@ -35,11 +35,6 @@ export type CompilerError = {
   line: number;
 };
 
-export type AssemblyCompilerOutput = {
-  program: number[];
-  errors: CompilerError[];
-};
-
 export type AssemblyStatement = {
   line: number;
   label: string;
@@ -81,7 +76,7 @@ export enum AssemblyToken {
   NUMBER = "number"
 }
 
-export function compileAssembly(source: string): AssemblyCompilerOutput {
+export function compileAssembly(source: string): AssemblyCompiler {
   if (source.charAt(source.length - 1) != "\n") source += "\n";
 
   const tokens = source
@@ -89,8 +84,6 @@ export function compileAssembly(source: string): AssemblyCompilerOutput {
     .split(SOURCE_SEPERATOR)
     .filter(token => token.length > 0)
     .map(token => token.toUpperCase());
-
-  const statements: AssemblyStatement[] = [];
 
   const parser: AssemblyParser = {
     tokens: tokens,
@@ -109,6 +102,7 @@ export function compileAssembly(source: string): AssemblyCompilerOutput {
   if (parser.errors.length > 0) {
     return {
       program: [],
+      statements: [],
       errors: parser.errors
     };
   }
@@ -121,10 +115,7 @@ export function compileAssembly(source: string): AssemblyCompilerOutput {
 
   compile(compiler);
 
-  return {
-    program: compiler.program,
-    errors: compiler.errors
-  };
+  return compiler;
 }
 
 export function parse(compiler: AssemblyParser) {
@@ -350,7 +341,9 @@ function compile(compiler: AssemblyCompiler) {
     compiler.statements.forEach((statement, i) => {
       let code = OpCodes[statement.instruction];
       if (statement.argument) {
-        const argument = matchNumber(statement.argument) ? Number.parseInt(statement.argument) : labelsToAddress[statement.argument];
+        const argument = matchNumber(statement.argument)
+          ? Number.parseInt(statement.argument)
+          : labelsToAddress[statement.argument];
         code += argument;
       }
       compiler.program.push(code);
