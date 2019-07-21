@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Input } from "@material-ui/core";
 import { withStyles, WithStyles, Theme } from "@material-ui/core/styles";
+import Editor from "react-simple-code-editor";
 
 const styles = withStyles<string>((theme: Theme) => ({
   input: {
@@ -20,11 +21,24 @@ type CodeEditorProps = {
   source: string;
   onChange: (value: string) => void;
   hasError?: boolean;
+  highlight: (source: string) => string;
 };
 
-const CodeEditor: React.StatelessComponent<WithStyles & CodeEditorProps> = ({ onChange, source, classes, hasError }) => (
+const CodeEditor: React.StatelessComponent<WithStyles & CodeEditorProps> = ({
+  onChange,
+  source,
+  classes,
+  hasError,
+  highlight
+}) => (
   <div className={hasError ? classes.borderError : classes.border}>
-    <Input className={classes.input} value={source} disableUnderline={true} rows={20} fullWidth={true} rowsMax={20} multiline={true} onChange={event => onChange(event.target.value)} />
+    <Editor
+      value={source}
+      onValueChange={code => onChange(code)}
+      highlight={highlight}
+      padding={10}
+      className={classes.input}
+    />
   </div>
 );
 

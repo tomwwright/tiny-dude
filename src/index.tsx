@@ -39,11 +39,11 @@ COUNT DAT 5 \n\
 ONE   DAT 1 \n\n\
 // click the ? for Code Help!";
 
-const examplePlusCode = "num count = 5; \n\n\
+const examplePlusCode = "num count = 5;\n\n\
 loop count >= 0 {\n\
-  out count; \n\
-  count = count - 1; \n\
-} \n";
+  out count;\n\
+  count = count - 1;\n\
+}\n";
 
 assemblyStore.compile(exampleCode);
 
