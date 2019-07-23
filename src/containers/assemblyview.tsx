@@ -49,16 +49,6 @@ const AssemblyViewComponent: React.StatelessComponent<{
         </Grid>
         <Grid item xs={12}>
           <Paper>
-            <FormControlLabel
-              control={
-                <Switch checked={props.uiStore.isEditorInPlusMode} onChange={e => props.uiStore.setEditorPlusMode(e)} />
-              }
-              label="Code in TinyDude+"
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper>
             <Grid container justify="space-between" alignItems="center">
               <Grid item>
                 <Typography variant="headline" component="h3">
@@ -75,6 +65,16 @@ const AssemblyViewComponent: React.StatelessComponent<{
               </Grid>
             </Grid>
             {props.uiStore.isEditorInPlusMode ? <PlusEditor /> : <AssemblyEditor />}
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <FormControlLabel
+              control={
+                <Switch checked={props.uiStore.isEditorInPlusMode} onChange={e => props.uiStore.setEditorPlusMode(e)} />
+              }
+              label="Code in TinyDude+"
+            />
           </Paper>
         </Grid>
       </Grid>
