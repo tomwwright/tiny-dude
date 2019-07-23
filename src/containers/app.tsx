@@ -1,6 +1,5 @@
 import * as React from "react";
-import { inject, observer } from "mobx-react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { AssemblyView } from "./assemblyview";
 import { PlusView } from "./tinydudeplusview";
@@ -14,7 +13,7 @@ export const App: React.StatelessComponent = props => (
       <AppBar githubUrl="https://github.com/tomwwright/tiny-dude" />
 
       <Route path="/" exact component={AssemblyView} />
-      <Route path="/plus" component={PlusView} />
+      <Route path="/ast" component={PlusView} />
 
       <FooterSpacer />
     </div>
