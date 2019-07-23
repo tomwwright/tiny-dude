@@ -62,8 +62,12 @@ const PlusEditor: React.StatelessComponent<WithStyles & PlusEditorProps> = ({ pl
           </ListItem>
         </Grid>
         <Grid item>
-          <Button color="primary" onClick={() => assemblyStore.compile(plusStore.compilation.source)}>
-            <FileDownloadIcon /> Load
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => assemblyStore.compile(plusStore.compilation.source)}
+          >
+            <FileDownloadIcon /> LOAD ASSEMBLY
           </Button>
         </Grid>
       </Grid>

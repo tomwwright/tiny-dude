@@ -106,6 +106,7 @@ const AssemblyViewComponent: React.StatelessComponent<{
             <Grid container>
               <Grid item>
                 <Button
+                  variant="contained"
                   color="secondary"
                   disabled={!props.computeStore.isRunning || props.runStore.isRunning}
                   onClick={() => props.runStore.run(1000)}
@@ -114,7 +115,12 @@ const AssemblyViewComponent: React.StatelessComponent<{
                 </Button>
               </Grid>
               <Grid item>
-                <Button color="primary" disabled={!props.runStore.isRunning} onClick={() => props.runStore.stop()}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={!props.runStore.isRunning}
+                  onClick={() => props.runStore.stop()}
+                >
                   <FlightLandIcon /> Stop
                 </Button>
               </Grid>

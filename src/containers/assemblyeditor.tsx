@@ -68,6 +68,7 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
         </Grid>
         <Grid item>
           <Button
+            variant="contained"
             color="primary"
             disabled={runStore.isRunning || assemblyStore.compiled.program.length == 0}
             onClick={() => computeStore.init(assemblyStore.compiled.program)}
