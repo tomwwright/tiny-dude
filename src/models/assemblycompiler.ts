@@ -30,6 +30,47 @@ export const OpCodes = {
   [Mnemonic.INP]: 902
 };
 
+export const OpCodeNames = {
+  [Mnemonic.HLT]: "HALT",
+  [Mnemonic.DAT]: "DATA",
+  [Mnemonic.ADD]: "ADD",
+  [Mnemonic.SUB]: "SUBTRACT",
+  [Mnemonic.STA]: "STORE",
+  [Mnemonic.LDA]: "LOAD",
+  [Mnemonic.BRA]: "BRANCH",
+  [Mnemonic.BRZ]: "BRANCH IF ZERO",
+  [Mnemonic.BRP]: "BRANCH IF POSITIVE",
+  [Mnemonic.OUT]: "OUTPUT",
+  [Mnemonic.INP]: "INPUT [UNSUPPORTED]"
+};
+
+export const generateAssemblyStatementDescription = (statement: AssemblyStatement) => {
+  switch (statement.instruction) {
+    case Mnemonic.HLT:
+      return "End the program execution.";
+    case Mnemonic.DAT:
+      return `Assembler instruction to store the value [${statement.argument}] here for use during execution.`;
+    case Mnemonic.ADD:
+      return `Add the value stored at [${statement.argument}] to the accumulator.`;
+    case Mnemonic.SUB:
+      return `Subtract the value stored at [${statement.argument}] from the accumulator.`;
+    case Mnemonic.STA:
+      return `Store the current accumulator value in memory location [${statement.argument}].`;
+    case Mnemonic.LDA:
+      return `Replace the current accumulator value with the value of memory location [${statement.argument}].`;
+    case Mnemonic.BRA:
+      return `Set the program counter to memory location [${statement.argument}].`;
+    case Mnemonic.BRZ:
+      return `If the accumulator is 000, set the program counter to memory location [${statement.argument}].`;
+    case Mnemonic.BRP:
+      return `If the accumulator is 000 or higher, set the program counter to memory location [${statement.argument}].`;
+    case Mnemonic.OUT:
+      return `Output the current value of the accumulator.`;
+    case Mnemonic.INP:
+      return `Receive input and store in accumulator. [UNSUPPORTED IN TINYDUDE]`;
+  }
+};
+
 export type CompilerError = {
   message: string;
   line: number;

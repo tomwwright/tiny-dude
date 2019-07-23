@@ -1,13 +1,16 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react";
-import { Paper, Typography, Grid, ListItemText } from "@material-ui/core";
+import { Paper, Typography, Grid, ListItemText, Tooltip } from "@material-ui/core";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 
 import Scrollable from "./scrollable";
 import ComputeStore from "../stores/compute";
+import { MemoryCell } from "./memorycell";
+import AssemblyStore from "../stores/assembly";
 
 type MemoryProps = {
   computeStore?: ComputeStore;
+  assemblyStore?: AssemblyStore;
 };
 
 const styles = withStyles<string>(theme => ({
@@ -24,19 +27,56 @@ const styles = withStyles<string>(theme => ({
     border: `1px solid ${theme.palette.grey.A400}`,
     margin: "4px",
     width: "50px"
+  },
+  unusedMemoryCell: {
+    margin: "5px",
+    width: "50px",
+    backgroundColor: "#EEE"
   }
 }));
 
-const MemoryGrid: React.StatelessComponent<WithStyles & MemoryProps> = ({ computeStore, classes }) => (
+function assignMemoryCellClass(
+  classes: Record<string, string>,
+  i: number,
+  loadedMemoryLength: number,
+  computeCounter: number,
+  computeIsRunning: boolean
+) {
+  if (!computeIsRunning) return classes.memoryCell;
+
+  if (i >= loadedMemoryLength) return classes.unusedMemoryCell;
+
+  return computeCounter == i
+    ? computeIsRunning
+      ? classes.programCountMemoryCell
+      : classes.programCountInactiveMemoryCell
+    : classes.memoryCell;
+}
+
+const MemoryGrid: React.StatelessComponent<WithStyles & MemoryProps> = ({ computeStore, assemblyStore, classes }) => (
   <Scrollable height={200}>
     <div style={{ display: "flex", flexWrap: "wrap" }}>
-      {computeStore.memory.map((memory, i) => (
-        <Paper key={i} className={computeStore.counter == i ? (computeStore.isRunning ? classes.programCountMemoryCell : classes.programCountInactiveMemoryCell) : classes.memoryCell}>
-          <ListItemText primary={("00" + memory).slice(-3)} secondary={("0" + i).slice(-2)} />
-        </Paper>
-      ))}
+      {computeStore.memory.map((memory, i) => {
+        const memoryCellClassName = assignMemoryCellClass(
+          classes,
+          i,
+          assemblyStore.compiled.program.length,
+          computeStore.counter,
+          computeStore.isRunning
+        );
+
+        return (
+          <MemoryCell
+            key={i}
+            class={memoryCellClassName}
+            memory={memory}
+            assemblyStatement={computeStore.isRunning ? assemblyStore.compiled.statements[i] : null}
+            index={i}
+          />
+        );
+      })}
     </div>
   </Scrollable>
 );
 
-export default inject("computeStore")(styles(observer(MemoryGrid)));
+export default inject("computeStore", "assemblyStore")(styles(observer(MemoryGrid)));
