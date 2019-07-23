@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper, Typography, Button, FormControlLabel } from "@material-ui/core";
+
+import { ChevronLeft as ChevronLeftIcon } from "@material-ui/icons";
 import { inject, observer } from "mobx-react";
 
 import TinyDudePlusEditor from "./tinydudepluseditor";
@@ -7,6 +9,7 @@ import AssemblyEditor from "./assemblyeditor";
 import TinyDudePlusStore from "../stores/plus";
 import AssemblyStore from "../stores/assembly";
 import { ASTNode } from "../components/ast";
+import { AdapterLink } from "../components/adapterlink";
 
 type PlusViewProps = {
   plusStore?: TinyDudePlusStore;
@@ -17,11 +20,22 @@ const PlusViewComponent: React.StatelessComponent<PlusViewProps> = props => (
   <Grid container>
     <Grid item sm={12} md={4}>
       <Paper>
+        <Button variant="contained" color="primary" component={props => <AdapterLink {...props} to="/" />}>
+          <ChevronLeftIcon /> Back
+        </Button>
+      </Paper>
+      <Paper>
+        <Typography variant="headline" component="h3">
+          TinyDude+.
+        </Typography>
         <TinyDudePlusEditor />
       </Paper>
     </Grid>
     <Grid item sm={12} md={4}>
       <Paper>
+        <Typography variant="headline" component="h3">
+          AST.
+        </Typography>
         {props.plusStore.compilation && props.plusStore.compilation.ast ? (
           <ASTNode
             node={props.plusStore.compilation.ast}
@@ -38,6 +52,9 @@ const PlusViewComponent: React.StatelessComponent<PlusViewProps> = props => (
     </Grid>
     <Grid item sm={12} md={4}>
       <Paper>
+        <Typography variant="headline" component="h3">
+          TinyDude Assembly.
+        </Typography>
         <AssemblyEditor />
       </Paper>
     </Grid>
