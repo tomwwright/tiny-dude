@@ -1,20 +1,14 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react";
-import { List, ListItem, ListItemIcon, ListItemText, Button, Typography, Grid } from "@material-ui/core";
-import { WithStyles, withStyles, Theme } from "@material-ui/core/styles";
-import { FileCopy as FileDownloadIcon, Error as ErrorIcon, Check as CheckIcon } from "@material-ui/icons";
+import { ListItem, ListItemIcon, ListItemText, Button, Grid } from "@material-ui/core";
+import { FileCopy as FileDownloadIcon, Check as CheckIcon } from "@material-ui/icons";
 
 import CodeEditor from "../components/codeeditor";
-import Scrollable from "../components/scrollable";
 import AssemblyStore from "../stores/assembly";
 import ComputeStore from "../stores/compute";
 import RunStore from "../stores/run";
-
-const style = withStyles<string>((theme: Theme) => ({
-  errorText: {
-    color: theme.palette.error.main
-  }
-}));
+import { CompilationErrorReport } from "../components/compilationerrorreport";
+import { CompilationSuccessMessage } from "../components/compilationsuccessmessage";
 
 type AssemblyEditorProps = {
   computeStore?: ComputeStore;
@@ -32,11 +26,10 @@ const highlightSource = (source: string, highlightedLines: number[]) => {
   return lines.join("\n");
 };
 
-const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps> = ({
+const AssemblyEditorComponent: React.StatelessComponent<AssemblyEditorProps> = ({
   computeStore,
   assemblyStore,
-  runStore,
-  classes
+  runStore
 }) => (
   <div>
     {assemblyStore.highlightedStatements &&
@@ -57,14 +50,9 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
       }
     />
     {assemblyStore.compiled.errors.length == 0 ? (
-      <Grid container style={{ marginTop: 0 }} alignItems="center" justify="space-between">
+      <Grid container alignItems="center" justify="space-between">
         <Grid item>
-          <ListItem>
-            <ListItemIcon>
-              <CheckIcon />
-            </ListItemIcon>
-            <ListItemText primary="Compiled!" secondary={`${assemblyStore.compiled.program.length} opcodes`} />
-          </ListItem>
+          <CompilationSuccessMessage message={`${assemblyStore.compiled.program.length} opcodes`} />
         </Grid>
         <Grid item>
           <Button
@@ -78,24 +66,9 @@ const AssemblyEditor: React.StatelessComponent<WithStyles & AssemblyEditorProps>
         </Grid>
       </Grid>
     ) : (
-      <Scrollable height={200}>
-        <List dense={true}>
-          {assemblyStore.compiled.errors.map((error, i) => (
-            <ListItem key={i}>
-              <ListItemIcon>
-                <ErrorIcon className={classes.errorText} />
-              </ListItemIcon>
-              <ListItemText
-                classes={{ textDense: classes.errorText }}
-                primary={error.message}
-                secondary={"Line " + error.line}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Scrollable>
+      <CompilationErrorReport errors={assemblyStore.compiled.errors} />
     )}
   </div>
 );
 
-export default inject("computeStore", "assemblyStore", "runStore")(style(observer(AssemblyEditor)));
+export const AssemblyEditor = inject("computeStore", "assemblyStore", "runStore")(observer(AssemblyEditorComponent));

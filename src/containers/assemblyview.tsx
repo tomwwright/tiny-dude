@@ -25,7 +25,7 @@ import { CodeHelpModal } from "../components/codehelpmodal";
 import { ControlsHelpModal } from "../components/controlshelpmodal";
 import MemoryGrid from "../components/memorygrid";
 import OutputsGrid from "../components/outputsgrid";
-import AssemblyEditor from "./assemblyeditor";
+import { AssemblyEditor } from "./assemblyeditor";
 
 import ComputeStore from "../stores/compute";
 import AssemblyStore from "../stores/assembly";

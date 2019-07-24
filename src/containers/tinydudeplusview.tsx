@@ -5,7 +5,7 @@ import { ChevronLeft as ChevronLeftIcon } from "@material-ui/icons";
 import { inject, observer } from "mobx-react";
 
 import TinyDudePlusEditor from "./tinydudepluseditor";
-import AssemblyEditor from "./assemblyeditor";
+import { AssemblyEditor } from "./assemblyeditor";
 import TinyDudePlusStore from "../stores/plus";
 import AssemblyStore from "../stores/assembly";
 import { ASTNode } from "../components/ast";
