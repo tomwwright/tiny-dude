@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tooltip, Typography, Paper, ListItemText, Grid } from "@material-ui/core";
+import { Tooltip, Typography, Paper, Grid } from "@material-ui/core";
 import { AssemblyStatement, OpCodeNames, generateAssemblyStatementDescription } from "../models/assemblycompiler";
 
 type MemoryCellProps = {

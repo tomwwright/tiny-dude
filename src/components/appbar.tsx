@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
-import { Face as FaceIcon, Code as CodeIcon, InfoOutlined as InfoIcon } from "@material-ui/icons";
+import { Face as FaceIcon, Code as CodeIcon } from "@material-ui/icons";
 
 type TinyDudeAppBarProps = {
   githubUrl: string;

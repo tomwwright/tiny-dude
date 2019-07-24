@@ -1,6 +1,6 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react";
-import { Paper, Typography, Grid, ListItemText } from "@material-ui/core";
+import { Paper, ListItemText } from "@material-ui/core";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 
 import Scrollable from "./scrollable";

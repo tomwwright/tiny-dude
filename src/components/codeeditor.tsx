@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Input } from "@material-ui/core";
 import { withStyles, WithStyles, Theme } from "@material-ui/core/styles";
 import Editor from "react-simple-code-editor";
 

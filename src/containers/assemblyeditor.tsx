@@ -1,7 +1,7 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react";
-import { ListItem, ListItemIcon, ListItemText, Button, Grid } from "@material-ui/core";
-import { FileCopy as FileDownloadIcon, Check as CheckIcon } from "@material-ui/icons";
+import { Button, Grid } from "@material-ui/core";
+import { FileCopy as FileDownloadIcon } from "@material-ui/icons";
 
 import CodeEditor from "../components/codeeditor";
 import AssemblyStore from "../stores/assembly";

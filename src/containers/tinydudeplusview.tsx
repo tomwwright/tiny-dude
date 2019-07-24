@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Paper, Typography, Button, FormControlLabel } from "@material-ui/core";
+import { Grid, Paper, Typography, Button } from "@material-ui/core";
 
 import { ChevronLeft as ChevronLeftIcon } from "@material-ui/icons";
 import { inject, observer } from "mobx-react";
