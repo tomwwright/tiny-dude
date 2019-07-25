@@ -18,7 +18,7 @@ const colourKeywordsInSource = (source: string) =>
   source.replace(/(loop|num|bool|if|out|true|false)/gi, '<span style="color: #6666FF">$1</span>');
 
 const highlightSource = (source: string, start: number, end: number) => {
-  return `${source.substring(0, start)}<span style="background-color: #DDDDDD">${source.substring(
+  return `${source.substring(0, start)}<span style="background-color:  rgba(130, 130, 130, 0.3);}">${source.substring(
     start,
     end
   )}</span>${source.substring(end)}`;
@@ -59,7 +59,7 @@ const PlusEditor: React.StatelessComponent<PlusEditorProps> = ({ plusStore, asse
         </Grid>
       </Grid>
     ) : (
-      <CompilationErrorReport errors={plusStore.compilation.errors.map(error => ({ message: error, line: 0 }))} />
+      <CompilationErrorReport errors={plusStore.compilation.errors} />
     )}
   </div>
 );
