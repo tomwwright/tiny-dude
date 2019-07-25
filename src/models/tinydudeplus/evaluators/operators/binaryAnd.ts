@@ -25,5 +25,5 @@ export function evaluateBinaryAnd(
   subtractAccumulatorConstant(compiler, 2);
 
   // if accumulator == 0, then true else false
-  isZeroAccumulator(compiler);
+  isZeroAccumulator(compiler, binary);
 }

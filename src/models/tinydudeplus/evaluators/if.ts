@@ -10,5 +10,5 @@ export function evaluateIf(compiler: TinyDudePlusCompiler, block: AST.Block, eva
   for (const statement of block.statements) {
     evaluate(statement);
   }
-  compiler.setPendingFlowLabel(skipBlockFlowLabel);
+  compiler.setPendingFlowLabel(block, skipBlockFlowLabel);
 }

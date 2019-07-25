@@ -19,5 +19,5 @@ export function evaluateBinaryEquals(
   subtractAccumulator(compiler, registerLeft);
   compiler.freeRegister(registerLeft);
 
-  isZeroAccumulator(compiler);
+  isZeroAccumulator(compiler, binary);
 }

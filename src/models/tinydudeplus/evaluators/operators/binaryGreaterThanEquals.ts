@@ -20,5 +20,5 @@ export function evaluateBinaryGreaterThanEquals(
   subtractAccumulator(compiler, registerRight);
   compiler.freeRegister(registerRight);
 
-  isPositiveAccumulator(compiler);
+  isPositiveAccumulator(compiler, binary);
 }

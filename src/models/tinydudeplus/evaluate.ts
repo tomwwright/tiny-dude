@@ -38,7 +38,7 @@ export function evaluate(compiler: TinyDudePlusCompiler, ast: AST.Node) {
       evaluation(compiler, node, recurse);
     } catch (e) {
       const error = e as Error;
-      compiler.error(error.message);
+      compiler.error(node, error.message);
     }
   };
 

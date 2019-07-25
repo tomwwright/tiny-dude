@@ -3,6 +3,18 @@ import { TinyDudePlusCompiler } from "../tinydudepluscompiler";
 export type Evaluate = (compiler: TinyDudePlusCompiler, node: AST.Node, evaluate: (node: AST.Node) => void) => void;
 
 export namespace AST {
+  export type SyntaxError = {
+    expected: any;
+    found: string;
+    location: {
+      start: SourceLocation;
+      end: SourceLocation;
+    };
+    message: string;
+    name: string;
+    stack: string;
+  };
+
   type SourceLocation = {
     offset: number;
     line: number;

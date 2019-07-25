@@ -9,5 +9,5 @@ export function evaluateUnaryNot(
   evaluate: (node: AST.Node) => void
 ) {
   evaluate(node.expression);
-  isZeroAccumulator(compiler);
+  isZeroAccumulator(compiler, node);
 }

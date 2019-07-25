@@ -23,5 +23,5 @@ export function evaluateBinaryOr(
 
   subtractAccumulatorConstant(compiler, 1);
 
-  isPositiveAccumulator(compiler);
+  isPositiveAccumulator(compiler, binary);
 }

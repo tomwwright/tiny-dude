@@ -3,10 +3,15 @@ import { AssemblyStatement } from "./assemblycompiler";
 import { AST } from "./tinydudeplus/types";
 import { evaluate } from "./tinydudeplus/evaluate";
 
+type CompileError = {
+  message: string;
+  line?: number;
+};
+
 export class TinyDudePlusCompiler {
   private symbols: { [symbol: string]: { label: string; type: AST.Type | "const" | "register" } } = {};
   private assembly: AssemblyStatement[] = [];
-  private errors: string[] = [];
+  private errors: CompileError[] = [];
 
   private pendingFlowLabel: string = null;
   private flowLabelCount = 1;
@@ -76,9 +81,9 @@ export class TinyDudePlusCompiler {
     return label;
   }
 
-  setPendingFlowLabel(label: string) {
+  setPendingFlowLabel(node: AST.Node, label: string) {
     if (this.pendingFlowLabel) {
-      this.errors.push(`overriding pending flow control label: ${this.pendingFlowLabel}!`);
+      this.error(node, `overriding pending flow control label: ${this.pendingFlowLabel}!`);
     }
     this.pendingFlowLabel = label;
     return this.pendingFlowLabel;
@@ -127,8 +132,11 @@ export class TinyDudePlusCompiler {
     this.pendingFlowLabel = null;
   }
 
-  error(error: string) {
-    this.errors.push(error);
+  error(node: AST.Node, error: string) {
+    this.errors.push({
+      message: error,
+      line: node.location ? node.location.start.line : null
+    });
   }
 
   static compileAST(compiler: TinyDudePlusCompiler, ast: AST.Program) {
@@ -151,8 +159,17 @@ export class TinyDudePlusCompiler {
       ast = TinyDudePlus.parse(source) as AST.Program;
     } catch (e) {
       if (e.name == "SyntaxError") {
+        const syntaxError = e as AST.SyntaxError;
+
+        console.error(syntaxError);
+
         return {
-          errors: [("Syntax Error: " + e.message) as string],
+          errors: [
+            {
+              message: "Syntax Error: " + syntaxError.message,
+              line: syntaxError.location.start.line
+            }
+          ],
           ast: null,
           assembly: null,
           source: null
