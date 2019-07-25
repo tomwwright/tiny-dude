@@ -36,6 +36,6 @@ it("evaluates a loop statement", () => {
   expect(evaluate).toHaveBeenNthCalledWith(1, ifBlock.expression);
   expect(evaluate).toHaveBeenNthCalledWith(2, ifBlock.statements[0]);
   expect(branch).toHaveBeenCalledWith(compiler, "LOOPFLOW");
-  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(1, "LOOPFLOW");
-  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(2, "SKIPFLOW");
+  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(1, ifBlock, "LOOPFLOW");
+  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(2, ifBlock, "SKIPFLOW");
 });

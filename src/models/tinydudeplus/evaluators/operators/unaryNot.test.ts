@@ -34,6 +34,6 @@ it("evaluates expression", () => {
 
 it("sets expected pending labels", () => {
   expect(compiler.setPendingFlowLabel).toHaveBeenCalledTimes(2);
-  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(1, "JUMPZERO");
-  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(2, "JUMP");
+  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(1, unary, "JUMPZERO");
+  expect(compiler.setPendingFlowLabel).toHaveBeenNthCalledWith(2, unary, "JUMP");
 });

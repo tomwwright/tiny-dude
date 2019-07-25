@@ -386,7 +386,12 @@ describe("errors for invalid declarations", () => {
     const compiler = new TinyDudePlusCompiler();
     let { assembly, errors } = TinyDudePlusCompiler.compileAST(compiler, ast);
 
-    expect(errors).toEqual(["variable already declared: b"]);
+    expect(errors).toEqual([
+      {
+        message: "variable already declared: b",
+        line: null
+      }
+    ]);
   });
 
   it("assigning an undeclared variable", () => {
@@ -413,6 +418,11 @@ describe("errors for invalid declarations", () => {
     const compiler = new TinyDudePlusCompiler();
     let { assembly, errors } = TinyDudePlusCompiler.compileAST(compiler, ast);
 
-    expect(errors).toEqual(["variable not defined: unknown"]);
+    expect(errors).toEqual([
+      {
+        message: "variable not defined: unknown",
+        line: null
+      }
+    ]);
   });
 });

@@ -36,5 +36,5 @@ it("evaluates an if statement", () => {
 
   expect(evaluate).toHaveBeenNthCalledWith(1, ifBlock.expression);
   expect(evaluate).toHaveBeenNthCalledWith(2, ifBlock.statements[0]);
-  expect(compiler.setPendingFlowLabel).toHaveBeenCalledWith("TESTFLOW");
+  expect(compiler.setPendingFlowLabel).toHaveBeenCalledWith(ifBlock, "TESTFLOW");
 });
