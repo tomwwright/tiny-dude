@@ -48,7 +48,9 @@ export default class RunStore {
   setTickMs(tickMs: number) {
     this.tickMs = tickMs;
 
-    this.stop();
-    this.run();
+    if (this.isRunning) {
+      this.stop();
+      this.run();
+    }
   }
 }
