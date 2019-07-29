@@ -24,13 +24,21 @@ const highlightSource = (source: string, start: number, end: number) => {
   )}</span>${source.substring(end)}`;
 };
 
+const handleCodeChange = (source: string, plusStore: TinyDudePlusStore, assemblyStore: AssemblyStore) => {
+  plusStore.compile(source);
+
+  if (plusStore.compilation.errors.length == 0) {
+    assemblyStore.compile(plusStore.compilation.source);
+  }
+};
+
 const PlusEditor: React.StatelessComponent<PlusEditorProps> = ({ plusStore, assemblyStore }) => (
   <div>
     {plusStore.sourceHighlighting && ""}
     <CodeEditor
       source={plusStore.source}
       hasError={plusStore.compilation.errors.length > 0}
-      onChange={code => plusStore.compile(code)}
+      onChange={code => handleCodeChange(code, plusStore, assemblyStore)}
       highlight={code =>
         colourKeywordsInSource(
           plusStore.sourceHighlighting
@@ -40,24 +48,11 @@ const PlusEditor: React.StatelessComponent<PlusEditorProps> = ({ plusStore, asse
       }
     />
     {plusStore.compilation.errors.length == 0 ? (
-      <Grid container alignItems="center" justify="space-between">
-        <Grid item>
-          <CompilationSuccessMessage
-            message={`${plusStore.compiledProgramStatementsLength} statements (${
-              plusStore.compilation.assembly.length
-            } opcodes)`}
-          />
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => assemblyStore.compile(plusStore.compilation.source)}
-          >
-            <FileDownloadIcon /> LOAD ASSEMBLY
-          </Button>
-        </Grid>
-      </Grid>
+      <CompilationSuccessMessage
+        message={`${plusStore.compiledProgramStatementsLength} statements (${
+          plusStore.compilation.assembly.length
+        } opcodes)`}
+      />
     ) : (
       <CompilationErrorReport errors={plusStore.compilation.errors} />
     )}

@@ -16,7 +16,8 @@ import {
   FlightTakeoff as FlightTakeoffIcon,
   FlightLand as FlightLandIcon,
   HelpOutline as HelpOutlineIcon,
-  ErrorOutline as ErrorOutlineIcon
+  ErrorOutline as ErrorOutlineIcon,
+  FileCopy as FileDownloadIcon
 } from "@material-ui/icons";
 import { observer, inject } from "mobx-react";
 
@@ -104,6 +105,16 @@ const AssemblyViewComponent: React.StatelessComponent<{
               </Grid>
             </Grid>
             <Grid container>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={props.runStore.isRunning || props.assemblyStore.compiled.program.length == 0}
+                  onClick={() => props.computeStore.init(props.assemblyStore.compiled.program)}
+                >
+                  <FileDownloadIcon /> Load
+                </Button>
+              </Grid>
               <Grid item>
                 <Button
                   variant="contained"

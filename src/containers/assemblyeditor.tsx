@@ -11,9 +11,7 @@ import { CompilationErrorReport } from "../components/compilationerrorreport";
 import { CompilationSuccessMessage } from "../components/compilationsuccessmessage";
 
 type AssemblyEditorProps = {
-  computeStore?: ComputeStore;
   assemblyStore?: AssemblyStore;
-  runStore?: RunStore;
 };
 
 const highlightComments = (source: string) => source.replace(/(\/\/.*)/gi, '<span style="color: #666666">$1</span>');
@@ -26,11 +24,7 @@ const highlightSource = (source: string, highlightedLines: number[]) => {
   return lines.join("\n");
 };
 
-const AssemblyEditorComponent: React.StatelessComponent<AssemblyEditorProps> = ({
-  computeStore,
-  assemblyStore,
-  runStore
-}) => (
+const AssemblyEditorComponent: React.StatelessComponent<AssemblyEditorProps> = ({ assemblyStore }) => (
   <div>
     {assemblyStore.highlightedStatements &&
       "" /* this is necessary so that MobX sees this variable during rendering so it can track it */}
@@ -50,25 +44,11 @@ const AssemblyEditorComponent: React.StatelessComponent<AssemblyEditorProps> = (
       }
     />
     {assemblyStore.compiled.errors.length == 0 ? (
-      <Grid container alignItems="center" justify="space-between">
-        <Grid item>
-          <CompilationSuccessMessage message={`${assemblyStore.compiled.program.length} opcodes`} />
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={runStore.isRunning || assemblyStore.compiled.program.length == 0}
-            onClick={() => computeStore.init(assemblyStore.compiled.program)}
-          >
-            <FileDownloadIcon /> Load
-          </Button>
-        </Grid>
-      </Grid>
+      <CompilationSuccessMessage message={`${assemblyStore.compiled.program.length} opcodes`} />
     ) : (
       <CompilationErrorReport errors={assemblyStore.compiled.errors} />
     )}
   </div>
 );
 
-export const AssemblyEditor = inject("computeStore", "assemblyStore", "runStore")(observer(AssemblyEditorComponent));
+export const AssemblyEditor = inject("assemblyStore")(observer(AssemblyEditorComponent));
