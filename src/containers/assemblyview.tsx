@@ -57,6 +57,15 @@ const AssemblyViewComponent: React.StatelessComponent<{
                 </Typography>
               </Grid>
               <Grid item>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={props.uiStore.isEditorInPlusMode}
+                      onChange={e => props.uiStore.setEditorPlusMode(e.target.checked)}
+                    />
+                  }
+                  label="Code in TinyDude+"
+                />
                 <Tooltip title="Open Code Help" placement="bottom">
                   <IconButton color="primary" aria-label="Open Code Help" onClick={() => props.uiStore.openCodeHelp()}>
                     <HelpOutlineIcon />
@@ -66,19 +75,6 @@ const AssemblyViewComponent: React.StatelessComponent<{
               </Grid>
             </Grid>
             {props.uiStore.isEditorInPlusMode ? <PlusEditor /> : <AssemblyEditor />}
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={props.uiStore.isEditorInPlusMode}
-                  onChange={e => props.uiStore.setEditorPlusMode(e.target.checked)}
-                />
-              }
-              label="Code in TinyDude+"
-            />
           </Paper>
         </Grid>
       </Grid>

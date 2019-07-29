@@ -24,6 +24,7 @@ type CodeEditorProps = {
 };
 
 const CodeEditor: React.StatelessComponent<WithStyles & CodeEditorProps> = ({
+  children,
   onChange,
   source,
   classes,
@@ -38,6 +39,7 @@ const CodeEditor: React.StatelessComponent<WithStyles & CodeEditorProps> = ({
       padding={10}
       className={classes.input}
     />
+    {children}
   </div>
 );
 

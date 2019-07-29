@@ -1,13 +1,14 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react";
-import { Button, Grid } from "@material-ui/core";
-import { FileCopy as FileDownloadIcon } from "@material-ui/icons";
+import { Fab } from "@material-ui/core";
+import { BubbleChart as BubbleChartIcon } from "@material-ui/icons";
 
 import CodeEditor from "../components/codeeditor";
 import TinyDudePlusStore from "../stores/plus";
 import AssemblyStore from "../stores/assembly";
 import { CompilationSuccessMessage } from "../components/compilationsuccessmessage";
 import { CompilationErrorReport } from "../components/compilationerrorreport";
+import { AdapterLink } from "../components/adapterlink";
 
 type PlusEditorProps = {
   plusStore?: TinyDudePlusStore;
@@ -37,20 +38,33 @@ const handleCodeChange = (source: string, plusStore: TinyDudePlusStore, assembly
 const PlusEditor: React.StatelessComponent<PlusEditorProps> = ({ plusStore, assemblyStore }) => (
   <div>
     {plusStore.sourceHighlighting && ""}
-    <CodeEditor
-      source={plusStore.source}
-      hasError={plusStore.compilation.errors.length > 0}
-      onChange={code => handleCodeChange(code, plusStore, assemblyStore)}
-      highlight={code =>
-        highlightComments(
-          colourKeywordsInSource(
-            plusStore.sourceHighlighting
-              ? highlightSource(code, plusStore.sourceHighlighting.start, plusStore.sourceHighlighting.end)
-              : code
+    <div style={{ position: "relative" }}>
+      <CodeEditor
+        source={plusStore.source}
+        hasError={plusStore.compilation.errors.length > 0}
+        onChange={code => handleCodeChange(code, plusStore, assemblyStore)}
+        highlight={code =>
+          highlightComments(
+            colourKeywordsInSource(
+              plusStore.sourceHighlighting
+                ? highlightSource(code, plusStore.sourceHighlighting.start, plusStore.sourceHighlighting.end)
+                : code
+            )
           )
-        )
-      }
-    />
+        }
+      >
+        <Fab
+          aria-label={"View TinyDude+ AST"}
+          variant="extended"
+          color="secondary"
+          size="small"
+          style={{ position: "absolute", bottom: "8px", right: "8px" }}
+          component={props => <AdapterLink {...props} to="/ast" />}
+        >
+          <BubbleChartIcon /> AST
+        </Fab>
+      </CodeEditor>
+    </div>
     {plusStore.compilation.errors.length == 0 ? (
       <CompilationSuccessMessage
         message={`${plusStore.compiledProgramStatementsLength} statements (${
