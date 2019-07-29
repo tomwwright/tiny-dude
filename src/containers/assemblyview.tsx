@@ -132,8 +132,8 @@ const AssemblyViewComponent: React.StatelessComponent<{
             <Typography variant="headline" component="h3">
               Instruction.
             </Typography>
-            <Typography variant="body1" component="p">
-              {("0" + props.computeStore.counter).slice(-2)}
+            <Typography variant="h6" component="p">
+              {("00" + props.computeStore.counter).slice(-3)}
             </Typography>
           </Paper>
         </Grid>
@@ -152,7 +152,7 @@ const AssemblyViewComponent: React.StatelessComponent<{
                 />
               )}
             </Typography>
-            <Typography variant="body1" component="p">
+            <Typography variant="h6" component="p">
               {("00" + props.computeStore.accumulator).slice(-3)}
             </Typography>
           </Paper>
