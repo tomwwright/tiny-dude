@@ -12,7 +12,7 @@ const style = withStyles<string>((theme: Theme) => ({
 }));
 
 type CompilationErrorReportProps = {
-  errors: Array<{ message: string; line: number }>;
+  errors: Array<{ message: string; line?: number }>;
 };
 
 const CompilationErrorReportComponent: React.StatelessComponent<WithStyles & CompilationErrorReportProps> = ({
@@ -29,7 +29,7 @@ const CompilationErrorReportComponent: React.StatelessComponent<WithStyles & Com
           <ListItemText
             classes={{ textDense: classes.errorText }}
             primary={error.message}
-            secondary={"Line " + error.line}
+            secondary={"Line " + (error.line ? error.line : "??")}
           />
         </ListItem>
       ))}
