@@ -20,7 +20,7 @@ statement =
 	_ statement:(assignment / declaration / out) _ ";" _ { return statement; }
 
 comment =
-  "//" comment:([^\n]*) '\n'
+  "//" comment:([^\n]*) '\n'?
 
     { return withLocation({ node: "comment", comment }); }
 
