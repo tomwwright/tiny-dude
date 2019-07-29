@@ -25,11 +25,6 @@ const PlusViewComponent: React.StatelessComponent<PlusViewProps> = props => (
         </Typography>
         <TinyDudePlusEditor />
       </Paper>
-      <Paper>
-        <Button variant="contained" color="primary" component={props => <AdapterLink {...props} to="/" />}>
-          <ChevronLeftIcon /> Back
-        </Button>
-      </Paper>
     </Grid>
     <Grid item sm={12} md={4}>
       <Paper>
