@@ -17,6 +17,8 @@ type PlusEditorProps = {
 const colourKeywordsInSource = (source: string) =>
   source.replace(/(loop|num|bool|if|out|true|false)/gi, '<span style="color: #6666FF">$1</span>');
 
+const highlightComments = (source: string) => source.replace(/(\/\/.*)/gi, '<span style="color: #666666">$1</span>');
+
 const highlightSource = (source: string, start: number, end: number) => {
   return `${source.substring(0, start)}<span style="background-color:  rgba(130, 130, 130, 0.3);}">${source.substring(
     start,
@@ -40,10 +42,12 @@ const PlusEditor: React.StatelessComponent<PlusEditorProps> = ({ plusStore, asse
       hasError={plusStore.compilation.errors.length > 0}
       onChange={code => handleCodeChange(code, plusStore, assemblyStore)}
       highlight={code =>
-        colourKeywordsInSource(
-          plusStore.sourceHighlighting
-            ? highlightSource(code, plusStore.sourceHighlighting.start, plusStore.sourceHighlighting.end)
-            : code
+        highlightComments(
+          colourKeywordsInSource(
+            plusStore.sourceHighlighting
+              ? highlightSource(code, plusStore.sourceHighlighting.start, plusStore.sourceHighlighting.end)
+              : code
+          )
         )
       }
     />
