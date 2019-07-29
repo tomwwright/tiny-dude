@@ -42,6 +42,14 @@ it("evaluates program", () => {
   expect(evaluateProgram).toHaveBeenCalled();
 });
 
+it("evaluates comment", () => {
+  const comment: AST.Comment = {
+    node: "comment",
+    comment: "this is my comment"
+  };
+  evaluate(compiler, comment);
+});
+
 it("evaluates out", () => {
   const out: AST.Out = {
     node: "out",

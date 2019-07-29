@@ -6,7 +6,8 @@ import {
   BubbleChart as BubbleChartIcon,
   FontDownload as FontDownloadIcon,
   MoveToInbox as MoveToInboxIcon,
-  Print as PrintIcon
+  Print as PrintIcon,
+  ChatBubbleOutline as ChatBubbleOutlineIcon
 } from "@material-ui/icons";
 
 import { AST } from "../../models/tinydudeplus/types";
@@ -35,5 +36,7 @@ export const ASTNodeIcon: React.StatelessComponent<ASTNodeIconProps> = ({ node }
     case "boolean":
     case "number":
       return <FontDownloadIcon />;
+    case "comment":
+      return <ChatBubbleOutlineIcon />;
   }
 };

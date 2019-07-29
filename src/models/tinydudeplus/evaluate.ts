@@ -14,6 +14,7 @@ import { evaluateLoop } from "./evaluators/loop";
 
 const evaluations: { [type: string]: Evaluate } = {
   program: evaluateProgram,
+  comment: () => {},
   out: evaluateOut,
   declaration: evaluateDeclaration,
   assignment: evaluateAssignment,

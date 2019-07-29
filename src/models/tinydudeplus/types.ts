@@ -21,7 +21,7 @@ export namespace AST {
     column: number;
   };
 
-  export type Node = Program | Statement | Expression;
+  export type Node = Program | Comment | Statement | Expression;
 
   export type BaseNode = {
     node: string;
@@ -34,6 +34,11 @@ export namespace AST {
   export type Program = BaseNode & {
     node: "program";
     statements: Statement[];
+  };
+
+  export type Comment = BaseNode & {
+    node: "comment";
+    comment: string;
   };
 
   type Statement = Block | Out | Declaration | Assignment;

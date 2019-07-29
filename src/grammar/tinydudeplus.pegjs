@@ -13,9 +13,16 @@ program	=
     { return withLocation({ node: "program", statements }) }
 
 statement =
+  _ comment:comment _ { return comment; }
+    /
 	_ block:block _ { return block; }
     / 
 	_ statement:(assignment / declaration / out) _ ";" _ { return statement; }
+
+comment =
+  "//" comment:([^\n]*) '\n'
+
+    { return withLocation({ node: "comment", comment }); }
 
 out = 
   "out" _ expression:expression

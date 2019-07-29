@@ -58,6 +58,7 @@ const children = (node: AST.Node): AST.Node[] => {
       return [node.identifier, node.expression];
     case "declaration":
       return [node.declaration];
+    case "comment":
     case "identifier":
     case "boolean":
     case "number":
