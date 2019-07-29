@@ -72,7 +72,10 @@ const AssemblyViewComponent: React.StatelessComponent<{
           <Paper>
             <FormControlLabel
               control={
-                <Switch checked={props.uiStore.isEditorInPlusMode} onChange={e => props.uiStore.setEditorPlusMode(e)} />
+                <Switch
+                  checked={props.uiStore.isEditorInPlusMode}
+                  onChange={e => props.uiStore.setEditorPlusMode(e.target.checked)}
+                />
               }
               label="Code in TinyDude+"
             />
@@ -105,7 +108,7 @@ const AssemblyViewComponent: React.StatelessComponent<{
               </Grid>
             </Grid>
             <Grid container>
-              <Grid item>
+              <Grid item style={{ margin: "0px 8px" }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -115,17 +118,17 @@ const AssemblyViewComponent: React.StatelessComponent<{
                   <FileDownloadIcon /> Load
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid item style={{ margin: "0px 8px" }}>
                 <Button
                   variant="contained"
                   color="secondary"
                   disabled={!props.computeStore.isRunning || props.runStore.isRunning}
-                  onClick={() => props.runStore.run(1000)}
+                  onClick={() => props.runStore.run()}
                 >
                   <FlightTakeoffIcon /> Start
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid item style={{ margin: "0px 8px" }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -140,9 +143,28 @@ const AssemblyViewComponent: React.StatelessComponent<{
         </Grid>
         <Grid item xs={6} md={4}>
           <Paper style={{ height: `${controlRowHeight}px` }}>
-            <Typography variant="headline" component="h3">
-              Instruction.
-            </Typography>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item>
+                <Typography variant="headline" component="h3">
+                  Instruction.
+                </Typography>
+              </Grid>
+              <Grid item>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={props.runStore.isRunningInFastMode}
+                      onChange={e => {
+                        const setFastMode = e.target.checked;
+
+                        props.runStore.setTickMs(setFastMode ? 200 : 1000);
+                      }}
+                    />
+                  }
+                  label="Run in Fast Mode"
+                />
+              </Grid>
+            </Grid>
             <Typography variant="h6" component="p">
               {("00" + props.computeStore.counter).slice(-3)}
             </Typography>

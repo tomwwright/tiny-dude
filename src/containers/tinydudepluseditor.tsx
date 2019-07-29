@@ -30,7 +30,7 @@ const handleCodeChange = (source: string, plusStore: TinyDudePlusStore, assembly
   plusStore.compile(source);
 
   if (plusStore.compilation.errors.length == 0) {
-    assemblyStore.compile(plusStore.compilation.source);
+    assemblyStore.compile("// compiled from TinyDude+ source\n\n" + plusStore.compilation.source);
   }
 };
 

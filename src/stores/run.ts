@@ -4,17 +4,23 @@ import ComputeStore from "./compute";
 
 export default class RunStore {
   @observable isRunning: boolean = false;
+  @observable tickMs: number = 1000;
 
-  computeStore: ComputeStore;
+  private computeStore: ComputeStore;
 
-  runInterval: NodeJS.Timer = null;
+  private runInterval: NodeJS.Timer = null;
 
   constructor(computeStore: ComputeStore) {
     this.computeStore = computeStore;
   }
 
+  @computed
+  get isRunningInFastMode() {
+    return this.tickMs != 1000;
+  }
+
   @action
-  run(tickMs: number) {
+  run() {
     if (!this.computeStore.isRunning || this.isRunning) return;
 
     this.isRunning = true;
@@ -27,7 +33,7 @@ export default class RunStore {
       if (!this.computeStore.isRunning) {
         this.stop();
       }
-    }, tickMs);
+    }, this.tickMs);
   }
 
   @action
@@ -36,5 +42,13 @@ export default class RunStore {
       this.isRunning = false;
       clearInterval(this.runInterval);
     }
+  }
+
+  @action
+  setTickMs(tickMs: number) {
+    this.tickMs = tickMs;
+
+    this.stop();
+    this.run();
   }
 }

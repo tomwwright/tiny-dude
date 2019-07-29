@@ -26,7 +26,7 @@ export default class UiStore {
   }
 
   @action
-  setEditorPlusMode(event: React.ChangeEvent<HTMLInputElement>) {
-    this.isEditorInPlusMode = event.target.checked;
+  setEditorPlusMode(isPlusMode: boolean) {
+    this.isEditorInPlusMode = isPlusMode;
   }
 }
