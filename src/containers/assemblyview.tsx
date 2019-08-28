@@ -23,6 +23,7 @@ import { observer, inject } from "mobx-react";
 
 import { Welcome } from "../components/welcome";
 import { CodeHelpModal } from "../components/codehelpmodal";
+import { PlusCodeHelpModal } from "../components/PlusCodeHelpModal";
 import { ControlsHelpModal } from "../components/controlshelpmodal";
 import MemoryGrid from "../components/memorygrid";
 import OutputsGrid from "../components/outputsgrid";
@@ -67,11 +68,18 @@ const AssemblyViewComponent: React.StatelessComponent<{
                   label="Code in TinyDude+"
                 />
                 <Tooltip title="Open Code Help" placement="bottom">
-                  <IconButton color="primary" aria-label="Open Code Help" onClick={() => props.uiStore.openCodeHelp()}>
+                  <IconButton
+                    color="primary"
+                    aria-label="Open Code Help"
+                    onClick={() =>
+                      props.uiStore.isEditorInPlusMode ? props.uiStore.openPlusCodeHelp() : props.uiStore.openCodeHelp()
+                    }
+                  >
                     <HelpOutlineIcon />
                   </IconButton>
                 </Tooltip>
                 <CodeHelpModal />
+                <PlusCodeHelpModal />
               </Grid>
             </Grid>
             {props.uiStore.isEditorInPlusMode ? <PlusEditor /> : <AssemblyEditor />}

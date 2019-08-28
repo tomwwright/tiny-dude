@@ -2,6 +2,7 @@ import { observable, computed, action } from "mobx";
 
 export default class UiStore {
   @observable isCodeHelpOpen: boolean = false;
+  @observable isPlusCodeHelpOpen: boolean = false;
   @observable isControlsHelpOpen: boolean = false;
   @observable isEditorInPlusMode: boolean = false;
 
@@ -13,6 +14,16 @@ export default class UiStore {
   @action
   closeCodeHelp() {
     this.isCodeHelpOpen = false;
+  }
+
+  @action
+  openPlusCodeHelp() {
+    this.isPlusCodeHelpOpen = true;
+  }
+
+  @action
+  closePlusCodeHelp() {
+    this.isPlusCodeHelpOpen = false;
   }
 
   @action
