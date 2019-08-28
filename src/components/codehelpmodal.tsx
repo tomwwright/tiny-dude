@@ -11,14 +11,18 @@ type CodeHelpModalComponentProps = {
 
 const CodeHelpModalComponent: React.StatelessComponent<CodeHelpModalComponentProps> = props => (
   <div>
-    <Modal aria-labelledby="code-help-modal-title" open={props.uiStore.isCodeHelpOpen} onClose={() => props.uiStore.closeCodeHelp()}>
-      <Paper style={{ position: "absolute", top: "10%", left: "25%", width: "50%", maxHeight: "80%", overflowY: "scroll" }}>
+    <Modal
+      aria-labelledby="code-help-modal-title"
+      open={props.uiStore.isCodeHelpOpen}
+      onClose={() => props.uiStore.closeCodeHelp()}
+    >
+      <Paper
+        style={{ position: "absolute", top: "10%", left: "25%", width: "50%", maxHeight: "80%", overflowY: "scroll" }}
+      >
         <Typography variant="headline" id="controls-help-modal-title">
           TinyDude Code Help.
         </Typography>
-
         <div style={{ height: "20px" }} />
-
         <Typography variant="subheading" component="h3">
           Wikipedia.
         </Typography>
@@ -29,49 +33,44 @@ const CodeHelpModalComponent: React.StatelessComponent<CodeHelpModalComponentPro
           </a>
           .
         </Typography>
-
         <div style={{ height: "20px" }} />
-
         <Typography variant="subheading" component="h3">
           INP No-op.
         </Typography>
         <Typography variant="body1">
-          TinyDude does not support the <i>INP</i> (input) instruction, any <i>INP</i> instruction will simply be executed as an <i>OUT</i> (output) instruction.
+          TinyDude does not support the <i>INP</i> (input) instruction, any <i>INP</i> instruction will simply be
+          executed as an <i>OUT</i> (output) instruction.
         </Typography>
-
         <div style={{ height: "20px" }} />
-
         <Typography variant="subheading" component="h3">
           Comments.
         </Typography>
-        <Typography variant="body1">TinyDude supports Java-style single line comments (i.e. "// this is a comment")</Typography>
-
+        <Typography variant="body1">
+          TinyDude supports Java-style single line comments (i.e. "// this is a comment")
+        </Typography>
         <div style={{ height: "20px" }} />
-
         <Typography variant="subheading" component="h3">
           Example 1: Count down from five.
         </Typography>
-        <Code
-          lines={"\
-      LDA COUNT \n\
+        <Code>
+          {
+            "LDA COUNT \n\
 LOOP  BRZ QUIT // if the accumulator value is 0, jump to label QUIT \n\
       OUT      // output our current accumulator \n\
       SUB ONE  // subtract the value stored at address ONE from the accumulator \n\
       BRA LOOP // jump to label LOOP \n\
 QUIT  HLT      // label this memory address as QUIT \n\
 COUNT DAT 5    // store 5 here, and label it COUNT \n\
-ONE   DAT 1    // store 1 here, and label it ONE".split(
-            "\n"
-          )}
-        />
-
+ONE   DAT 1    // store 1 here, and label it ONE"
+          }
+        </Code>
         <div style={{ height: "20px" }} />
-
         <Typography variant="subheading" component="h3">
           Example 2: Square the number three.
         </Typography>
-        <Code
-          lines={"\
+        <Code>
+          {
+            "\
       LDA NUM   // load the num to square\n\
       STA COUNT // store how many times we need to sum\n\
 \n\
@@ -91,10 +90,9 @@ DONE  LDA SUM   // load our final total\n\
 NUM   DAT 3     \n\
 ONE   DAT 1     \n\
 SUM   DAT 0     \n\
-COUNT DAT 0".split(
-            "\n"
-          )}
-        />
+COUNT DAT 0"
+          }
+        </Code>
       </Paper>
     </Modal>
   </div>
