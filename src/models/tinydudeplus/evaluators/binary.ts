@@ -42,6 +42,6 @@ export function evaluateBinary(
       evaluateBinaryOr(compiler, binary, evaluate);
       break;
     default:
-      throw new Error(`Compile Error: Unsupported binary operator: ${binary.operator}`);
+      throw new Error(`Compile Error: Unhandled binary operator: ${binary.operator}`);
   }
 }
