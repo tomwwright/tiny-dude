@@ -13,6 +13,6 @@ export function evaluateUnary(
       evaluateUnaryNot(compiler, unary, evaluate);
       break;
     default:
-      throw new Error(`Compile Error: unhandled unary expression: ${unary.operator}`);
+      throw new Error(`Compile Error: Unhandled unary operator: ${unary.operator}`);
   }
 }

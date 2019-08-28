@@ -32,7 +32,7 @@ export function evaluate(compiler: TinyDudePlusCompiler, ast: AST.Node) {
   const recurse = (node: AST.Node) => {
     const evaluation = evaluations[node.node];
     if (!evaluation) {
-      throw new Error(`unhandled AST node type during compilation: ${node.node}!`);
+      throw new Error(`Compile Error: Unhandled AST node type during compilation: ${node.node}!`);
     }
 
     try {
