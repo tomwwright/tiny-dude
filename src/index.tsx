@@ -43,7 +43,7 @@ const examplePlusCode =
   "// example: count down from five \n\n\
 // click 'Load' and 'Start' :) \n\n\
 num count = 5;\n\n\
-loop count >= 0 {\n\
+loop count >= 1 {\n\
   out count;\n\
   count = count - 1;\n\
 }\n\n\
