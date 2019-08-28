@@ -110,7 +110,7 @@ export default class ComputeStore {
     this.accumulator = this.accumulator - value;
     if (this.accumulator < 0) {
       this.hasOverOrUnderflowed = "underflow";
-      this.accumulator = this.accumulator % 1000;
+      this.accumulator = (this.accumulator + 1000) % 1000;
     }
   }
 
