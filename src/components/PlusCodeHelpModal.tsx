@@ -76,13 +76,6 @@ loop n >= 0 {  \n\
 } \n"
           }
         </Code>
-        <Typography variant="subheading" component="h3">
-          TinyDude.
-        </Typography>
-        <Typography variant="body1">
-          Enter your TinyDude+ program in the provided input box, then click <b>Load</b> to load your program into
-          TinyDude.
-        </Typography>
       </Paper>
     </Modal>
   </div>
