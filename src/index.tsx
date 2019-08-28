@@ -29,12 +29,12 @@ const uiStore = new UiStore();
 const exampleCode =
   "// example: count down from five \n\n\
 // click 'Load' and 'Start' :) \n\n\
-LDA COUNT \n\
+      LDA COUNT \n\
 LOOP  BRZ QUIT \n\
-OUT \n\
-SUB ONE \n\
-BRA LOOP \n\
-QUIT  HLT \n\
+      OUT \n\
+      SUB ONE \n\
+      BRA LOOP \n\
+      QUIT HLT \n\
 COUNT DAT 5 \n\
 ONE   DAT 1 \n\n\
 // click the ? for Code Help!";
