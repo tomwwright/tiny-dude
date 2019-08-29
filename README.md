@@ -57,44 +57,40 @@ TinyDude supports Java-style single line comments (i.e. "// this is a comment")
 ## Example 1: Count down from five.
 
 ```
-
       LDA COUNT
 
-LOOP BRZ QUIT // if the accumulator value is 0, jump to label QUIT
-OUT // output our current accumulator
-SUB ONE // subtract the value stored at address ONE from the accumulator
-BRA LOOP // jump to label LOOP
-QUIT HLT // label this memory address as QUIT
-COUNT DAT 5 // store 5 here, and label it COUNT
-ONE DAT 1 // store 1 here, and label it ONE
-
+LOOP  BRZ QUIT  // if the accumulator value is 0, jump to label QUIT
+      OUT       // output our current accumulator
+      SUB ONE   // subtract the value stored at address ONE from the accumulator
+      BRA LOOP  // jump to label LOOP
+QUIT  HLT       // label this memory address as QUIT
+COUNT DAT 5     // store 5 here, and label it COUNT
+ONE   DAT 1     // store 1 here, and label it ONE
 ```
 
 ## Example 2: Square the number three.
 
 ```
-
       LDA NUM   // load the num to square
       STA COUNT // store how many times we need to sum
 
-LOOP BRZ DONE // if accumulator (loop count) is zero, exit our summing loop
-LDA SUM // load our total thus far
-ADD NUM // add our number to it
-STA SUM // store new total
-LDA COUNT // load our loop count
-SUB ONE // subtract one from loop count
-STA COUNT // store our new loop count
-BRA LOOP // jump to top of the loop
+LOOP  BRZ DONE  // if accumulator (loop count) is zero, exit our summing loop
+      LDA SUM   // load our total thus far
+      ADD NUM   // add our number to it
+      STA SUM   // store new total
+      LDA COUNT // load our loop count
+      SUB ONE   // subtract one from loop count
+      STA COUNT // store our new loop count
+      BRA LOOP  // jump to top of the loop
 
-DONE LDA SUM // load our final total
-OUT // output our total
-HLT // fin
+DONE  LDA SUM   // load our final total
+      OUT       // output our total
+      HLT       // fin
 
-NUM DAT 3
-ONE DAT 1
-SUM DAT 0
+NUM   DAT 3
+ONE   DAT 1
+SUM   DAT 0
 COUNT DAT 0
-
 ```
 
 ## TinyDude+

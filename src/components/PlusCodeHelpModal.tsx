@@ -87,8 +87,7 @@ num count = 5;\n\
 loop count >= 1 {\n\
   out count;\n\
   count = count - 1;\n\
-}\n\
-\n"
+}\n"
           }
         </Code>
         <div style={{ height: "20px" }} />
