@@ -153,7 +153,7 @@ loop n >= 0 {
 
 num count = 5;
 
-loop count >= 0 {
+loop count >= 1 {
   out count;
   count = count - 1;
 }
@@ -166,7 +166,7 @@ num n = 4;
 num multiplier = n;
 num sum = 0;
 
-loop multiplier >= 0 {
+loop multiplier >= 1 {
   sum = sum + n;
   multiplier = multiplier - 1;
 }

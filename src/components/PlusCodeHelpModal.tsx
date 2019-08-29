@@ -76,6 +76,39 @@ loop n >= 0 {  \n\
 } \n"
           }
         </Code>
+        <div style={{ height: "20px" }} />
+        <Code>
+          {
+            "\
+// Example 1: Count down from 5\n\
+\n\
+num count = 5;\n\
+\n\
+loop count >= 1 {\n\
+  out count;\n\
+  count = count - 1;\n\
+}\n\
+\n"
+          }
+        </Code>
+        <div style={{ height: "20px" }} />
+        <Code>
+          {
+            "\
+// Example 2: Square the number 4\n\
+\n\
+num n = 4;\n\
+num multiplier = n;\n\
+num sum = 0;\n\
+\n\
+loop multiplier >= 1 {\n\
+  sum = sum + n;\n\
+  multiplier = multiplier - 1;\n\
+}\n\
+\n\
+out sum;\n"
+          }
+        </Code>
       </Paper>
     </Modal>
   </div>
