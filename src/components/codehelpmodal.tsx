@@ -54,7 +54,8 @@ const CodeHelpModalComponent: React.StatelessComponent<CodeHelpModalComponentPro
         </Typography>
         <Code>
           {
-            "LDA COUNT \n\
+            "\
+      LDA COUNT \n\
 LOOP  BRZ QUIT // if the accumulator value is 0, jump to label QUIT \n\
       OUT      // output our current accumulator \n\
       SUB ONE  // subtract the value stored at address ONE from the accumulator \n\
